@@ -325,6 +325,54 @@
 </head>
 <body>
     <canvas id="bg-canvas"></canvas>
+    
+        .image-detail {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            margin-top: 10px;
+            border-left: 4px solid #00f3ff;
+            border-radius: 8px;
+        }
+
+        .image-detail h5 {
+            color: #00f3ff;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .detail-explain,
+        .tech-detail,
+        .workflow-detail,
+        .performance-detail {
+            color: #ddd;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+
+        .detail-explain strong,
+        .tech-detail strong,
+        .workflow-detail strong,
+        .performance-detail strong {
+            color: #bc13fe;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .tech-tags .tag {
+            background: linear-gradient(135deg, rgba(0,243,255,0.2), rgba(188,19,254,0.2));
+            border: 1px solid #00f3ff;
+            color: #00f3ff;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
 
     <div class="container">
         <header>
@@ -442,13 +490,34 @@
                 <div class="project-showcase">
                     <p><strong>📸 Project Showcase Gallery:</strong></p>
                     <div class="gallery">
-                        <div class="gallery-item">
-                            <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=500" alt="Missile Launch Systems">
-                            <p>Advanced Missile Launch Command Center</p>
+                        <div class="gallery-item"<div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800" alt="Advanced Missile Launch System">
+                            <div class="image-detail">
+                                <h5>🚀 Advanced Missile Launch Command Center</h5>
+                                <p class="detail-explain"><strong>What You're Seeing:</strong> A comprehensive 3D model of a missile launch control center built entirely in Blender. This scene showcases military-grade accuracy with detailed control panels, radar systems, and launch mechanisms.</p>
+                                <p class="tech-detail"><strong>Technical Process:</strong> Modeled using Blender's hard-surface modeling techniques with beveled edges and panel detailing. Applied PBR (Physically Based Rendering) materials for realistic metal, glass, and electronic displays.</p>
+                                <p class="workflow-detail"><strong>Workflow:</strong> Blender (Base Modeling) → Substance Painter (Texturing) → Unreal Engine 5 (Real-time Rendering & Blueprint Integration)</p>
+                                <div class="tech-tags">
+                                    <span class="tag">🔧 Blender</span>
+                                    <span class="tag">🎮 UE5</span>
+                                    <span class="tag">PBR Materials</span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="gallery-item">
-                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8e7d8c88?w=500" alt="Defense Targeting System">
-                            <p>Targeting & Tracking Systems</p>
+                        <div class="gallery-item"<div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8e7d8c88?w=800" alt="Defense Targeting System">
+                            <div class="image-detail">
+                                <h5>🎯 Real-Time Targeting & Acquisition System</h5>
+                                <p class="detail-explain"><strong>What You're Seeing:</strong> An interactive targeting interface designed for air defense simulation training. Features real-time radar tracking, threat assessment displays, and multi-target lock capabilities built in Unreal Engine's Blueprint system.</p>
+                                <p class="tech-detail"><strong>Technical Implementation:</strong> Created using Unreal Engine's UI/UX Widgets with Blueprint visual scripting. Integrated physics-based projectile tracking and collision detection systems for realistic missile simulation.</p>
+                                <p class="workflow-detail"><strong>Development Stack:</strong> Blueprint Visual Scripting → Widget UI Design → C++ Physics Integration → Real-time Data Visualization</p>
+                                <p class="performance-detail"><strong>Performance:</strong> Optimized to track 12+ simultaneous targets while maintaining 60+ FPS on standard hardware.</p>
+                                <div class="tech-tags">
+                                    <span class="tag">📊 Real-time UI</span>
+                                    <span class="tag">Blueprint System</span>
+                                    <span class="tag">Physics Simulation</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="gallery-item">
                             <img src="https://images.unsplash.com/photo-1620712014215-23a4a81ae702?w=500" alt="Terrain Mapping">
