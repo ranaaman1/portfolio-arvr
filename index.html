@@ -671,10 +671,118 @@
         grid-template-columns: 1fr;
       }
     }
+    
+    /* Fixed Navigation Bar */
+    .nav-bar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(10, 10, 18, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+      box-shadow: 0 2px 20px rgba(0, 243, 255, 0.2);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+    }
+
+    .nav-logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #00f3ff;
+      text-decoration: none;
+      text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+      transition: all 0.3s;
+    }
+
+    .nav-logo:hover {
+      text-shadow: 0 0 20px rgba(0, 243, 255, 0.8);
+      transform: scale(1.1);
+    }
+
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-menu li {
+      margin: 0;
+    }
+
+    .nav-menu a {
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-menu a:hover {
+      background: rgba(0, 243, 255, 0.1);
+      color: #00f3ff;
+      box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+    }
+
+    .nav-menu i {
+      font-size: 0.85rem;
+    }
+
+    /* Add padding to body to account for fixed nav */
+    body {
+      padding-top: 70px;
+    }
+
+    @media (max-width: 768px) {
+      .nav-menu {
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+      
+      .nav-menu a {
+        font-size: 0.75rem;
+        padding: 6px 10px;
+      }
+
+      .nav-logo {
+        font-size: 1.4rem;
+      }
+    }
   </style>
 </head>
 
 <body>
+
+    <!-- FIXED NAVIGATION BAR -->
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo">AR</a>
+      <ul class="nav-menu">
+        <li><a href="#about"><i class="fas fa-user"></i> About</a></li>
+        <li><a href="#tech-stack"><i class="fas fa-cogs"></i> Skills</a></li>
+        <li><a href="#professional-overview"><i class="fas fa-briefcase"></i> Overview</a></li>
+        <li><a href="#leadership"><i class="fas fa-users"></i> Leadership</a></li>
+        <li><a href="#projects"><i class="fas fa-rocket"></i> Projects</a></li>
+        <li><a href="#achievements"><i class="fas fa-trophy"></i> Achievements</a></li>
+        <li><a href="#inquire"><i class="fas fa-paper-plane"></i> Inquire</a></li>
+        <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
   <canvas id="bg-canvas"></canvas>
 
   <div class="container">
