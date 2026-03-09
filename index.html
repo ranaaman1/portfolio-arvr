@@ -573,6 +573,104 @@
         font-size: 0.9rem;
       }
     }
+    
+    /* Inquire Section & Form Styling */
+    #inquire {
+      background: radial-gradient(circle at top, rgba(0,243,255,0.08), rgba(0,0,0,0.92));
+      border: 1px solid rgba(0,243,255,0.4);
+      box-shadow: 0 0 30px rgba(0,243,255,0.2);
+    }
+
+    .inquiry-form {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      color: #00f3ff;
+      margin-bottom: 10px;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .form-group label i {
+      margin-right: 8px;
+      opacity: 0.8;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(0,243,255,0.05);
+      border: 1px solid rgba(0,243,255,0.3);
+      border-radius: 8px;
+      color: white;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: all 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      background: rgba(0,243,255,0.1);
+      border-color: #00f3ff;
+      box-shadow: 0 0 15px rgba(0,243,255,0.3);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 15px 40px;
+      background: linear-gradient(135deg, #00f3ff, #bc13fe);
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 0 20px rgba(0,243,255,0.4);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 40px rgba(0,243,255,0.6), 0 0 20px rgba(188,19,254,0.4);
+    }
+
+    .submit-btn i {
+      margin-right: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
@@ -902,6 +1000,43 @@
         <p style="line-height: 1.7; color: #ddd;">Presented the VR Campus Navigation System with large-scale optimization for Meta Quest headsets.</p>
       </div>
     </section>
+
+        <!-- INQUIRE SECTION -->
+    <section id="inquire">
+      <h2><i class="fas fa-paper-plane"></i> Get In Touch</h2>
+      <p style="text-align: center; max-width: 600px; margin: 0 auto 40px auto; color: #ddd;">
+        Have a project in mind or want to collaborate? Drop me a message and let's create something extraordinary together.
+      </p>
+      
+      <form class="inquiry-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name"><i class="fas fa-user"></i> Full Name</label>
+            <input type="text" id="name" name="name" placeholder="Your Name" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+            <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="subject"><i class="fas fa-tag"></i> Subject</label>
+          <input type="text" id="subject" name="subject" placeholder="What's this about?" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="message"><i class="fas fa-comment-dots"></i> Message</label>
+          <textarea id="message" name="message" rows="6" placeholder="Tell me about your project or inquiry..." required></textarea>
+        </div>
+        
+        <button type="submit" class="submit-btn">
+          <i class="fas fa-rocket"></i> Send Message
+        </button>
+      </form>
+    </section>
+
 
     <section id="contact">
       <h2><i class="fas fa-broadcast-tower"></i> Establish Connection</h2>
