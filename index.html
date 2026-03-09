@@ -1,724 +1,781 @@
-`<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aman Rana | AR/VR Experience Developer</title>
-    <!-- Three.js for 3D Background -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --neon-cyan: #00f3ff;
-            --neon-purple: #bc13fe;
-            --dark-bg: #0a0a12;
-            --card-bg: rgba(20, 20, 35, 0.8);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aman Rana | AR/VR Experience Developer</title>
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            cursor: crosshair;
-        }
+  <!-- Three.js for 3D Background -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> <!-- [web:2] -->
 
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: var(--dark-bg);
-            color: white;
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-        }
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- [web:10] -->
 
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            z-index: -1;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            position: relative;
-            z-index: 1;
-        }
-
-        header {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: radial-gradient(circle at center, rgba(188, 19, 254, 0.1) 0%, transparent 70%);
-        }
-
-        .hero-img {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            border: 4px solid var(--neon-cyan);
-            box-shadow: 0 0 30px var(--neon-cyan);
-            margin-bottom: 30px;
-            object-fit: cover;
-            animation: float 4s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0) rotate(0); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-        }
-
-        h1 {
-            font-size: 4rem;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            background: linear-gradient(to right, var(--neon-cyan), var(--neon-purple));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
-        }
-
-        .glitch-text {
-            font-size: 1.5rem;
-            color: var(--neon-cyan);
-            font-weight: 300;
-            margin-bottom: 30px;
-        }
-
-        section {
-            margin-bottom: 100px;
-            padding: 40px;
-            background: var(--card-bg);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur12px);
-        box-shadow: 0 0 20px rgba(0, 243, 255, 0.1),
-                    inset 0 0 20px rgba(188, 19, 254, 0.05);
-        transition: transform 0.3s, border-color 0.3s;0px);
-        }
-
-        section:hover {
-            transform: scale(1.02);
-            border-color: var(--neon-cyan);
-        }
-
-        h2 {
-            color: var(--neon-purple);
-            font-size: 2rem;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .skill-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            border: 1px solid transparent;
-            transition: 0.3s;
-        }
-
-        .skill-card:hover {
-            background: rgba(0, 243, 255, 0.1);
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 20px var(--neon-cyan);
-        }
-
-        .skill-card i {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--neon-cyan);
-        }
-
-
-            #projects {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-        gap: 30px;
+  <style>
+    :root {
+      --neon-cyan: #00f3ff;
+      --neon-purple: #bc13fe;
+      --dark-bg: #0a0a12;
+      --card-bg: rgba(20, 20, 35, 0.8);
     }
 
-        .project-card {
-            border-left: 5px solid var(--neon-cyan);
-            padding-left: 20px;
-            margin-bottom: 30px;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      cursor: crosshair;
+    }
 
-        .nav-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin-top: 40px;
-        }
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: var(--dark-bg);
+      color: white;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
 
-        .btn {
-            padding: 15px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
 
-        .btn-cyan {
-            background: transparent;
-            border: 2px solid var(--neon-cyan);
-            color: var(--neon-cyan);
-        }
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+    }
 
-        .btn-cyan:hover {
-            background: var(--neon-cyan);
-            color: black;
-            box-shadow: 0 0 40px var(--neon-cyan);
-        }
+    header {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      background: radial-gradient(circle at center, rgba(188, 19, 254, 0.1) 0%, transparent 70%);
+    }
 
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 50px;
-            flex-wrap: wrap;
-            gap: 30px;
-        }
+    .hero-img {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 4px solid var(--neon-cyan);
+      box-shadow: 0 0 30px var(--neon-cyan);
+      margin-bottom: 30px;
+      object-fit: cover;
+      animation: float 4s ease-in-out infinite;
+    }
 
-        .stat-item {
-            text-align: center;
-        }
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
 
-        .stat-value {
-            font-size: 2.5rem;
-            color: var(--neon-cyan);
-            display: block;
-        }
+    h1 {
+      font-size: 4rem;
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      background: linear-gradient(to right, var(--neon-cyan), var(--neon-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+    }
 
-        footer {
-            text-align: center;
-            padding: 40px;
-            opacity: 0.6;
-        }
+    .glitch-text {
+      font-size: 1.5rem;
+      color: var(--neon-cyan);
+      font-weight: 300;
+      margin-bottom: 30px;
+    }
 
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: var(--dark-bg);
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--neon-purple);
-            border-radius: 10px;
-        }
-        
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 15px 0;
-        }
+    section {
+      margin-bottom: 100px;
+      padding: 40px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      box-shadow:
+        0 0 20px rgba(0, 243, 255, 0.1),
+        inset 0 0 20px rgba(188, 19, 254, 0.05);
+      transition: transform 0.3s, border-color 0.3s;
+    }
 
-        .tech-badge {
-            background: linear-gradient(135deg, #00f3ff15 0%, #bc13fe15 100%);
-            border: 1px solid #00f3ff;
-            color: #00f3ff;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
+    section:hover {
+      transform: scale(1.02);
+      border-color: var(--neon-cyan);
+    }
 
-        .project-showcase {
-            margin: 20px 0;
-            padding: 15px;
-            background: rgba(0, 243, 255, 0.05);
-            border-radius: 10px;
-        }
+    h2 {
+      color: var(--neon-purple);
+      font-size: 2rem;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
 
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
 
-        .gallery-item {
-            border-radius: 10px;
-            overflow: hidden;
-            border: 1px solid #00f3ff;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
+    .skill-card {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+      border: 1px solid transparent;
+      transition: 0.3s;
+    }
 
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
-        }
+    .skill-card:hover {
+      background: rgba(0, 243, 255, 0.1);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 20px var(--neon-cyan);
+    }
 
-        .gallery-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
+    .skill-card i {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      color: var(--neon-cyan);
+    }
 
-        .gallery-item p {
-            padding: 10px;
-            color: #00f3ff;
-            text-align: center;
-            font-size: 0.9rem;
-        }
+    #projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
 
-        .key-features {
-            background: rgba(188, 19, 254, 0.08);
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            border-left: 4px solid #bc13fe;
-        }
+    .project-card {
+      border-left: 5px solid var(--neon-cyan);
+      padding-left: 20px;
+      margin-bottom: 30px;
+    }
 
-        .key-features h4 {
-            color: #bc13fe;
-            margin-bottom: 10px;
-        }
+    .nav-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-top: 40px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
-        .key-features ul {
-            list-style: none;
-        }
+    .btn {
+      padding: 15px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
 
-        .key-features li {
-            color: #ccc;
-            margin: 8px 0;
-            padding-left: 10px;
-        }
+    .btn-cyan {
+      background: transparent;
+      border: 2px solid var(--neon-cyan);
+      color: var(--neon-cyan);
+    }
 
-                    .project-stats {
-            display: flex;
-            gap: 30px;
-            margin-top: 20px;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
+    .btn-cyan:hover {
+      background: var(--neon-cyan);
+      color: black;
+      box-shadow: 0 0 40px var(--neon-cyan);
+    }
 
-        .stat {
-            text-align: center;
-        }
+    .stats {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 50px;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
 
-        .stat-label {
-            color: #999;
-            font-size: 0.9rem;
-            display: block;
-            margin-bottom: 5px;
-        }
+    .stat-item {
+      text-align: center;
+    }
 
-        .stat-value {
-            color: #00f3ff;
-            font-size: 1.5rem;
-            font-weight: bold;
-            display: block;
-        }
+    .stat-value {
+      font-size: 2.5rem;
+      color: var(--neon-cyan);
+      display: block;
+    }
 
-        video {
-            background: #000;
-            width: 100%;
-        }
+    .stat-label {
+      color: #999;
+      font-size: 0.9rem;
+    }
 
-            .scroll-down {
-        margin-top: 40px;
-        font-size: 30px;
-        color: var(--neon-cyan);
-        animation: bounce 2s infinite;
+    footer {
+      text-align: center;
+      padding: 40px;
+      opacity: 0.6;
+    }
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--dark-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--neon-purple);
+      border-radius: 10px;
+    }
+
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 15px 0;
+    }
+
+    .tech-badge {
+      background: linear-gradient(135deg, #00f3ff15 0%, #bc13fe15 100%);
+      border: 1px solid #00f3ff;
+      color: #00f3ff;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .project-showcase {
+      margin: 20px 0;
+      padding: 15px;
+      background: rgba(0, 243, 255, 0.05);
+      border-radius: 10px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .gallery-item {
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #00f3ff;
+      transition: transform 0.3s, box-shadow 0.3s;
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .gallery-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .gallery-item p {
+      padding: 10px;
+      color: #00f3ff;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    .key-features {
+      background: rgba(188, 19, 254, 0.08);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 15px 0;
+      border-left: 4px solid #bc13fe;
+    }
+
+    .key-features h4 {
+      color: #bc13fe;
+      margin-bottom: 10px;
+    }
+
+    .key-features ul {
+      list-style: none;
+    }
+
+    .key-features li {
+      color: #ccc;
+      margin: 8px 0;
+      padding-left: 10px;
+    }
+
+    .project-stats {
+      display: flex;
+      gap: 30px;
+      margin-top: 20px;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-label {
+      color: #999;
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .stat-value.small {
+      font-size: 1.5rem;
+    }
+
+    video {
+      background: #000;
+      width: 100%;
+    }
+
+    .scroll-down {
+      margin-top: 40px;
+      font-size: 30px;
+      color: var(--neon-cyan);
+      animation: bounce 2s infinite;
     }
 
     @keyframes bounce {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(10px); }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(10px); }
     }
 
     @media (max-width: 768px) {
-        h1 {
-            font-size: 2.2rem;
-        }
-        .container {
-            padding: 20px;
-        }
-        .hero-img {
-            width: 140px;
-            height: 140px;
-        }
-        .nav-buttons {
-            flex-direction: column;
-        }
+      h1 {
+        font-size: 2.2rem;
+      }
+      .container {
+        padding: 20px;
+      }
+      .hero-img {
+        width: 140px;
+        height: 140px;
+      }
+      .nav-buttons {
+        flex-direction: column;
+      }
     }
-    </style>
+
+    /* Extra detail styles */
+    .image-detail {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      margin-top: 10px;
+      border-left: 4px solid #00f3ff;
+      border-radius: 8px;
+    }
+
+    .image-detail h5 {
+      color: #00f3ff;
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+
+    .detail-explain,
+    .tech-detail,
+    .workflow-detail,
+    .performance-detail {
+      color: #ddd;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin: 10px 0;
+    }
+
+    .detail-explain strong,
+    .tech-detail strong,
+    .workflow-detail strong,
+    .performance-detail strong {
+      color: #bc13fe;
+    }
+
+    .tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 15px;
+    }
+
+    .tech-tags .tag {
+      background: linear-gradient(135deg, rgba(0,243,255,0.2), rgba(188,19,254,0.2));
+      border: 1px solid #00f3ff;
+      color: #00f3ff;
+      padding: 5px 12px;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+  </style>
 </head>
+
 <body>
-    <canvas id="bg-canvas"></canvas>
-<style>
-        .image-detail {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 20px;
-            margin-top: 10px;
-            border-left: 4px solid #00f3ff;
-            border-radius: 8px;
-        }
+  <canvas id="bg-canvas"></canvas>
 
-        .image-detail h5 {
-            color: #00f3ff;
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-        }
+  <div class="container">
+    <header>
+      <div class="glitch-text">AR/VR GAME ENVIRONMENT DEVELOPER</div>
+      <p>Building the future of immersive reality, one pixel at a time.</p>
+      <div class="nav-buttons">
+        <img src="https://i.ibb.co/RGqJx96c/1000370680-transformed.jpg" alt="Aman Rana" class="hero-img" id="profileImg">
+        <a href="#contact" class="btn btn-cyan">Contact</a>
+      </div>
+    </header>
 
-        .detail-explain,
-        .tech-detail,
-        .workflow-detail,
-        .performance-detail {
-            color: #ddd;
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin: 10px 0;
-        }
+    <section id="about">
+      <h2><i class="fas fa-user-astronaut"></i> Mission Profile</h2>
+      <p>I specialize in crafting high-performance, visually stunning virtual environments for Unity and Unreal Engine. My focus is on VR navigation systems, lighting optimization, and creating intuitive UI/UX for the metaverse.</p>
 
-        .detail-explain strong,
-        .tech-detail strong,
-        .workflow-detail strong,
-        .performance-detail strong {
-            color: #bc13fe;
-        }
+      <div class="stats">
+        <div class="stat-item">
+          <span class="stat-value">2026</span>
+          <span class="stat-label">BCA AR/VR</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">2nd</span>
+          <span class="stat-label">Pro Expo Prize</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">2nd</span>
+          <span class="stat-label">AI Fest 2026</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value">99%</span>
+          <span class="stat-label">Optimization</span>
+        </div>
+      </div>
+    </section>
 
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 15px;
-        }
+    <section id="tech-stack">
+      <h2><i class="fas fa-microchip"></i> Augmented Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <i class="fas fa-cube"></i>
+          <h4>Unity/Unreal</h4>
+          <p>Advanced Game Engines</p>
+        </div>
+        <div class="skill-card">
+          <i class="fas fa-vr-cardboard"></i>
+          <h4>VR Systems</h4>
+          <p>Immersive Navigation</p>
+        </div>
+        <div class="skill-card">
+          <i class="fas fa-code"></i>
+          <h4>C++/C#</h4>
+          <p>Core Development</p>
+        </div>
+        <div class="skill-card">
+          <i class="fas fa-paint-brush"></i>
+          <h4>3D Modeling</h4>
+          <p>Blender & 3ds Max</p>
+        </div>
+      </div>
+    </section>
 
-        .tech-tags .tag {
-            background: linear-gradient(135deg, rgba(0,243,255,0.2), rgba(188,19,254,0.2));
-            border: 1px solid #00f3ff;
-            color: #00f3ff;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-</style>
-    <div class="container">
-        <header>
-            <div class="glitch-text">AR/VR GAME ENVIRONMENT DEVELOPER</div>
-            <p>Building the future of immersive reality, one pixel at a time.</p>
-            <div class="nav-buttons">
-            <img src="https://i.ibb.co/RGqJx96c/1000370680-transformed.jpg" alt="Aman Rana" class="hero-img" id="profileImg">                <a href="#contact" class="btn btn-cyan">Contact</a>
-            </div>
-        </header>
+    <section id="projects">
+      <h2><i class="fas fa-project-diagram"></i> Active Deployments</h2>
 
-        <section id="about">
-            <h2><i class="fas fa-user-astronaut"></i> Mission Profile</h2>
-            <p>I specialize in crafting high-performance, visually stunning virtual environments for Unity and Unreal Engine. My focus is on VR navigation systems, lighting optimization, and creating intuitive UI/UX for the metaverse.</p>
-            
-            <div class="stats">
-                <div class="stat-item">
-                    <span class="stat-value">2026</span>
-                    <span class="stat-label">BCA AR/VR</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-value">2nd</span>
-                    <span class="stat-label">Pro Expo Prize</span>
-                </div>
-                            <div class="stat-item">
-                <span class="stat-value">2nd</span>
-                <span class="stat-label">AI Fest 2026</span>
-            </div>
-                <div class="stat-item">
-                    <span class="stat-value">99%</span>
-                    <span class="stat-label">Optimization</span>
-                </div>
-            </div>
-        </section>
+      <div class="project-card">
+        <h3>🎬 VR Campus Navigation System</h3>
+        <p class="date">Chandigarh University | Jan 2025 - Present</p>
+        <p><strong>Advanced 3D VR Campus Infrastructure Visualization</strong></p>
+        <p>A large-scale, fully navigable VR campus environment for Chandigarh University featuring realistic spatial layouts, real-time lighting optimization, and intuitive navigation systems optimized for VR headsets.</p>
 
-        <section id="tech-stack">
-            <h2><i class="fas fa-microchip"></i> Augmented Skills</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <i class="fas fa-cube"></i>
-                    <h4>Unity/Unreal</h4>
-                    <p>Advanced Game Engines</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-vr-cardboard"></i>
-                    <h4>VR Systems</h4>
-                    <p>Immersive Navigation</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-code"></i>
-                    <h4>C++/C#</h4>
-                    <p>Core Development</p>
-                </div>
-                <div class="skill-card">
-                    <i class="fas fa-paint-brush"></i>
-                    <h4>3D Modeling</h4>
-                    <p>Blender & 3ds Max</p>
-                </div>
-            </div>
-        </section>
+        <div class="tech-stack">
+          <span class="tech-badge">🎮 Unreal Engine 5</span>
+          <span class="tech-badge">3D Blender</span>
+          <span class="tech-badge">Twinmotion</span>
+          <span class="tech-badge">3ds Max</span>
+        </div>
 
-        <section id="projects">
-            <h2><i class="fas fa-project-diagram"></i> Active Deployments</h2>
-            <div class="project-card">
-                <h3>🎬 VR Campus Navigation System</h3>
-                <p class="date">Chandigarh University | Jan 2025 - Present</p>
-                <p><strong>Advanced 3D VR Campus Infrastructure Visualization</strong></p>
-                <p>A large-scale, fully navigable VR campus environment for Chandigarh University featuring realistic spatial layouts, real-time lighting optimization, and intuitive navigation systems optimized for VR headsets.</p>
-                
-                <div class="tech-stack">
-                    <span class="tech-badge">🎮 Unreal Engine 5</span>
-                    <span class="tech-badge">3D Blender</span>
-                    <span class="tech-badge">Twinmotion</span>
-                    <span class="tech-badge">3ds Max</span>
-                </div>
+        <div class="project-showcase">
+          <p><strong>🎥 Live Project Video Demonstration:</strong></p>
+          <video width="100%" height="auto" style="border-radius: 10px; margin: 15px 0;" controls>
+            <source src="https://www.dropbox.com/scl/fi/4rq0ymqt67jbvnwx06064/Video3_000.mp4?rlkey=ngt87ap6y8i90qr4go5zuqx2k&raw=1" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
 
-                <div class="project-showcase">
-                    <p><strong>🎥 Live Project Video Demonstration:</strong></p>
-                    <video width="100%" height="auto" style="border-radius: 10px; margin: 15px 0;" controls>
-                        <source src="https://www.dropbox.com/scl/fi/4rq0ymqt67jbvnwx06064/Video3_000.mp4?rlkey=ngt87ap6y8i90qr4go5zuqx2k&raw=1" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
+        <div class="key-features">
+          <h4>Key Features & Achievements:</h4>
+          <ul>
+            <li>✅ Large-scale VR environment with accurate spatial layouts</li>
+            <li>✅ LOD (Level of Detail) systems for performance optimization</li>
+            <li>✅ Real-time lighting workflows with dynamic shadows</li>
+            <li>✅ Intuitive VR navigation & interaction systems</li>
+            <li>✅ Figma-based UI/UX design integration</li>
+            <li>✅ High-performance asset optimization for VR headsets</li>
+            <li>✅ Realistic environmental modeling with attention to detail</li>
+          </ul>
+        </div>
 
-                <div class="key-features">
-                    <h4>Key Features & Achievements:</h4>
-                    <ul>
-                        <li>✅ Large-scale VR environment with accurate spatial layouts</li>
-                        <li>✅ LOD (Level of Detail) systems for performance optimization</li>
-                        <li>✅ Real-time lighting workflows with dynamic shadows</li>
-                        <li>✅ Intuitive VR navigation & interaction systems</li>
-                        <li>✅ Figma-based UI/UX design integration</li>
-                        <li>✅ High-performance asset optimization for VR headsets</li>
-                        <li>✅ Realistic environmental modeling with attention to detail</li>
-                    </ul>
-                </div>
+        <div class="project-stats">
+          <div class="stat">
+            <span class="stat-label">Polygons Optimized</span>
+            <span class="stat-value small">2.4M+</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Rendering Performance</span>
+            <span class="stat-value small">90+ FPS</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Campus Area</span>
+            <span class="stat-value small">1.2 KM²</span>
+          </div>
+        </div>
+      </div>
 
-                <div class="project-stats">
-                    <div class="stat"><span class="stat-label">Polygons Optimized</span> <span class="stat-value">2.4M+</span></div>
-                    <div class="stat"><span class="stat-label">Rendering Performance</span> <span class="stat-value">90+ FPS</span></div>
-                    <div class="stat"><span class="stat-label">Campus Area</span> <span class="stat-value">1.2 KM²</span></div>
+      <div class="project-card">
+        <h3>🚀 Air Defense Missile Simulation System</h3>
+        <p class="date">Defense-Grade VR Training Module</p>
+        <p><strong>High-Fidelity 3D Asset Development & Unreal Engine Implementation</strong></p>
+        <p>Comprehensive 3D modeling and VR simulation environment for air defense and missile systems. Professional-grade assets created in Blender with advanced materials, physics simulation, and real-time rendering in Unreal Engine for defense training applications.</p>
+
+        <div class="tech-stack">
+          <span class="tech-badge">🎮 Unreal Engine 5</span>
+          <span class="tech-badge">Blender 3D</span>
+          <span class="tech-badge">🎬 Sequencer</span>
+          <span class="tech-badge">Blueprint Scripting</span>
+        </div>
+
+        <div class="project-showcase">
+          <p><strong>📸 Project Showcase Gallery:</strong></p>
+
+          <div class="gallery">
+            <div class="gallery-item">
+              <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800" alt="Advanced Missile Launch System">
+              <div class="image-detail">
+                <h5>🚀 Advanced Missile Launch Command Center</h5>
+                <p class="detail-explain"><strong>What You're Seeing:</strong> A comprehensive 3D model of a missile launch control center built entirely in Blender. This scene showcases military-grade accuracy with detailed control panels, radar systems, and launch mechanisms.</p>
+                <img src="https://i.ibb.co/YF9fGJJx/Whats-App-Image-2026-02-24-at-9-35-12-AM.jpg" alt="VR Control Room - Missile Launch Interface">
+                <p class="workflow-detail"><strong>Workflow:</strong> Blender (Base Modeling) → Substance Painter (Texturing) → Unreal Engine 5 (Real-time Rendering & Blueprint Integration)</p>
+                <div class="tech-tags">
+                  <span class="tag">🔧 Blender</span>
+                  <span class="tag">🎮 UE5</span>
+                  <span class="tag">PBR Materials</span>
                 </div>
+              </div>
             </div>
 
-            <div class="project-card">
-                <h3>🚀 Air Defense Missile Simulation System</h3>
-                <p class="date">Defense-Grade VR Training Module</p>
-                <p><strong>High-Fidelity 3D Asset Development & Unreal Engine Implementation</strong></p>
-                <p>Comprehensive 3D modeling and VR simulation environment for air defense and missile systems. Professional-grade assets created in Blender with advanced materials, physics simulation, and real-time rendering in Unreal Engine for defense training applications.</p>
-                
-                <div class="tech-stack">
-                    <span class="tech-badge">🎮 Unreal Engine 5</span>
-                    <span class="tech-badge">Blender 3D</span>
-                    <span class="tech-badge">🎬 Sequencer</span>
-                    <span class="tech-badge">Blueprint Scripting</span>
+            <div class="gallery-item">
+              <img src="https://images.unsplash.com/photo-1618005182384-a83a8e7d8c88?w=800" alt="Defense Targeting System">
+              <div class="image-detail">
+                <h5>🎯 Real-Time Targeting & Acquisition System</h5>
+                <p class="detail-explain"><strong>What You're Seeing:</strong> An interactive targeting interface designed for air defense simulation training. Features real-time radar tracking, threat assessment displays, and multi-target lock capabilities built in Unreal Engine's Blueprint system.</p>
+                <img src="https://i.ibb.co/nq9fL8Rm/Whats-App-Image-2026-02-24-at-9-35-45-AM.jpg" alt="Missile Launch - Real-time Rendering">
+                <p class="workflow-detail"><strong>Development Stack:</strong> Blueprint Visual Scripting → Widget UI Design → C++ Physics Integration → Real-time Data Visualization</p>
+                <p class="performance-detail"><strong>Performance:</strong> Optimized to track 12+ simultaneous targets while maintaining 60+ FPS on standard hardware.</p>
+                <div class="tech-tags">
+                  <span class="tag">📊 Real-time UI</span>
+                  <span class="tag">Blueprint System</span>
+                  <span class="tag">Physics Simulation</span>
                 </div>
-
-                <div class="project-showcase">
-                    <p><strong>📸 Project Showcase Gallery:</strong></p>
-                    <div class="gallery">
-                            <div class="gallery-item">                            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800" alt="Advanced Missile Launch System">
-                            <div class="image-detail">
-                                <h5>🚀 Advanced Missile Launch Command Center</h5>
-                                <p class="detail-explain"><strong>What You're Seeing:</strong> A comprehensive 3D model of a missile launch control center built entirely in Blender. This scene showcases military-grade accuracy with detailed control panels, radar systems, and launch mechanisms.</p>
-                            <img src="https://i.ibb.co/YF9fGJJx/Whats-App-Image-2026-02-24-at-9-35-12-AM.jpg" alt="VR Control Room - Missile Launch Interface">                                <p class="workflow-detail"><strong>Workflow:</strong> Blender (Base Modeling) → Substance Painter (Texturing) → Unreal Engine 5 (Real-time Rendering & Blueprint Integration)</p>
-                                <div class="tech-tags">
-                                    <span class="tag">🔧 Blender</span>
-                                    <span class="tag">🎮 UE5</span>
-                                    <span class="tag">PBR Materials</span>
-                                </div>
-                            </div>
-                        </div>
-                            <div class="gallery-item">                            <img src="https://images.unsplash.com/photo-1618005182384-a83a8e7d8c88?w=800" alt="Defense Targeting System">
-                            <div class="image-detail">
-                                <h5>🎯 Real-Time Targeting & Acquisition System</h5>
-                                <p class="detail-explain"><strong>What You're Seeing:</strong> An interactive targeting interface designed for air defense simulation training. Features real-time radar tracking, threat assessment displays, and multi-target lock capabilities built in Unreal Engine's Blueprint system.</p>
-                            <img src="https://i.ibb.co/nq9fL8Rm/Whats-App-Image-2026-02-24-at-9-35-45-AM.jpg" alt="Missile Launch - Real-time Rendering">                                <p class="workflow-detail"><strong>Development Stack:</strong> Blueprint Visual Scripting → Widget UI Design → C++ Physics Integration → Real-time Data Visualization</p>
-                                <p class="performance-detail"><strong>Performance:</strong> Optimized to track 12+ simultaneous targets while maintaining 60+ FPS on standard hardware.</p>
-                                <div class="tech-tags">
-                                    <span class="tag">📊 Real-time UI</span>
-                                    <span class="tag">Blueprint System</span>
-                                    <span class="tag">Physics Simulation</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="gallery-item">
-                            <img src="https://images.unsplash.com/photo-1620712014215-23a4a81ae702?w=500" alt="Terrain Mapping">
-<div class="image-detail">
- <h5>🎯 3D Terrain & Threat Assessment Mapping</h5>
- <p class="detail-explain"><strong>What You're Seeing:</strong> A sophisticated 3D terrain visualization integrated with real-time threat assessment systems. Shows geographical mapping data with overlay of potential engagement zones and hostile position indicators.</p>
-                            <img src="https://i.ibb.co/RTzMxt7s/Whats-App-Image-2026-02-24-at-9-35-30-AM.jpg" alt="Unreal Engine Blueprint System"> <p class="workflow-detail"><strong>Workflow:</strong> Geospatial Data Processing → Blender Terrain Generation → Substance Designer (Texturing) → Unreal Engine 5 (Real-time Visualization & Blueprint Integration)</p>
- <div class="tech-tags">
- <span class="tag">🌍 Terrain Data</span>
- <span class="tag">🎮 UE5</span>
- <span class="tag">Threat Visualization</span>
- </div>
- </div>
-                        </div>
-
-                                        <div class="gallery-item">
-                    <img src="https://i.ibb.co/Ps33Nj3Y/Whats-App-Image-2026-02-24-at-9-42-25-AM.jpg" alt="Advanced Targeting System">
-                    <div class="image-detail">
-                        <h5>🎯 Advanced Targeting System</h5>
-                        <p class="detail-explain"><strong>What You're Seeing:</strong> A sophisticated targeting interface with real-time threat tracking and analysis. This system showcases advanced UI/UX design integrated with Unreal Engine's Blueprint system for responsive, high-performance military simulation.</p>
-                        <img src="https://i.ibb.co/Ps33Nj3Y/Whats-App-Image-2026-02-24-at-9-42-25-AM.jpg" alt="Targeting System Interface">
-                        <p class="workflow-detail"><strong>Technical Implementation:</strong> Widget Blueprint → C++ Integration → Real-time Data Processing → HUD Rendering Pipeline</p>
-                        <div class="tech-tags">
-                            <span class="tag">🎯 Targeting AI</span>
-                            <span class="tag">🎮 Blueprint</span>
-                            <span class="tag">Real-time Analysis</span>
-                        </div>
-                    </div>
-                </div>
-                    </div>
-                </div>
-
-                <div class="key-features">
-                    <h4>Advanced Features:</h4>
-                    <ul>
-                        <li>✅ Detailed 3D asset modeling with military-grade accuracy</li>
-                        <li>✅ Physics-based projectile simulation</li>
-                        <li>✅ Real-time targeting & acquisition systems visualization</li>
-                        <li>✅ Advanced material & lighting systems</li>
-                        <li>✅ Multi-target engagement scenarios</li>
-                        <li>✅ Performance-optimized for defense simulations</li>
-                        <li>✅ Professional training module ready</li>
-                    </ul>
-                </div>
-
-                <div class="project-stats">
-                    <div class="stat"><span class="stat-label">3D Models Created</span> <span class="stat-value">50+</span></div>
-                    <div class="stat"><span class="stat-label">Simulation Scenarios</span> <span class="stat-value">12</span></div>
-                    <div class="stat"><span class="stat-label">Render Quality</span> <span class="stat-value">4K Ready</span></div>
-                </div>
+              </div>
             </div>
-        </section>
 
-            <!-- ACHIEVEMENTS SECTION -->
-            <section id="achievements">
-                        <h2>🏆 Achievements</h2>
-                        <div style="margin-bottom: 30px; padding: 20px; background: rgba(0, 243, 255, 0.05); border-left: 4px solid var(--neon-cyan); border-radius: 8px;">
-                                        <h3 style="color: var(--neon-cyan); margin-bottom: 10px;">AI Fest 2026 – Reality X Innovation Challenge</h3>
-                                        <p style="margin-bottom: 8px;"><strong>Venue:</strong> Chandigarh University | <strong>Dates:</strong> February 19–21, 2026</p>
-                                        <p style="margin-bottom: 15px;"><strong>Award:</strong> 2nd Prize – Advanced Defence Technology & AI Innovation</p>
-                                        <p style="line-height: 1.7; color: #ddd;">Developed a Cruise Missile Defence System using Unreal Engine with tablet-based control and real-time AI-driven threat detection for modern air-defence simulation.</p>
-                                    </div>
-                        <div style="padding: 20px; background: rgba(188, 19, 254, 0.05); border-left: 4px solid var(--neon-purple); border-radius: 8px;">
-                                        <h3 style="color: var(--neon-purple); margin-bottom: 10px;">Pro Expo 2026 – VR Campus Showcase</h3>
-                                        <p style="margin-bottom: 8px;"><strong>Award:</strong> 2nd Prize – Immersive Experience Design</p>
-                                        <p style="line-height: 1.7; color: #ddd;">Presented the VR Campus Navigation System with large-scale optimization for Meta Quest headsets.</p>
-                                    </div>
-                    </section>
-        
-        <section id="contact">
-            <h2><i class="fas fa-broadcast-tower"></i> Establish Connection</h2>
-            <div class="skills-grid">
-                <a href="mailto:amanu0155@gmail.com" class="skill-card" style="text-decoration:none; color:inherit;">
-                    <i class="fas fa-envelope"></i>
-                    <h4>Direct Link</h4>
-                    <p>amanu0155@gmail.com</p>
-                </a>
-                <a href="https://linkedin.com/in/amanrana" target="_blank" class="skill-card" style="text-decoration:none; color:inherit;">
-                    <i class="fab fa-linkedin"></i>
-                    <h4>LinkedIn</h4>
-                    <p>Secure Handshake</p>
-                </a>
-                <div class="skill-card">
-                    <i class="fas fa-phone"></i>
-                    <h4>Voice Comms</h4>
-                    <p>+91 9815998939</p>
+            <div class="gallery-item">
+              <img src="https://images.unsplash.com/photo-1620712014215-23a4a81ae702?w=500" alt="Terrain Mapping">
+              <div class="image-detail">
+                <h5>🎯 3D Terrain & Threat Assessment Mapping</h5>
+                <p class="detail-explain"><strong>What You're Seeing:</strong> A sophisticated 3D terrain visualization integrated with real-time threat assessment systems. Shows geographical mapping data with overlay of potential engagement zones and hostile position indicators.</p>
+                <img src="https://i.ibb.co/RTzMxt7s/Whats-App-Image-2026-02-24-at-9-35-30-AM.jpg" alt="Unreal Engine Blueprint System">
+                <p class="workflow-detail"><strong>Workflow:</strong> Geospatial Data Processing → Blender Terrain Generation → Substance Designer (Texturing) → Unreal Engine 5 (Real-time Visualization & Blueprint Integration)</p>
+                <div class="tech-tags">
+                  <span class="tag">🌍 Terrain Data</span>
+                  <span class="tag">🎮 UE5</span>
+                  <span class="tag">Threat Visualization</span>
                 </div>
+              </div>
             </div>
-        </section>
 
-        <footer>
-            <p>&copy; 2026 Aman Rana // System Status: Fully Operational</p>
-        </footer>
-    </div>
+            <div class="gallery-item">
+              <img src="https://i.ibb.co/Ps33Nj3Y/Whats-App-Image-2026-02-24-at-9-42-25-AM.jpg" alt="Advanced Targeting System">
+              <div class="image-detail">
+                <h5>🎯 Advanced Targeting System</h5>
+                <p class="detail-explain"><strong>What You're Seeing:</strong> A sophisticated targeting interface with real-time threat tracking and analysis. This system showcases advanced UI/UX design integrated with Unreal Engine's Blueprint system for responsive, high-performance military simulation.</p>
+                <img src="https://i.ibb.co/Ps33Nj3Y/Whats-App-Image-2026-02-24-at-9-42-25-AM.jpg" alt="Targeting System Interface">
+                <p class="workflow-detail"><strong>Technical Implementation:</strong> Widget Blueprint → C++ Integration → Real-time Data Processing → HUD Rendering Pipeline</p>
+                <div class="tech-tags">
+                  <span class="tag">🎯 Targeting AI</span>
+                  <span class="tag">🎮 Blueprint</span>
+                  <span class="tag">Real-time Analysis</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-    <script>
-        // Three.js Background Animation
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), antialias: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
+        <div class="key-features">
+          <h4>Advanced Features:</h4>
+          <ul>
+            <li>✅ Detailed 3D asset modeling with military-grade accuracy</li>
+            <li>✅ Physics-based projectile simulation</li>
+            <li>✅ Real-time targeting & acquisition systems visualization</li>
+            <li>✅ Advanced material & lighting systems</li>
+            <li>✅ Multi-target engagement scenarios</li>
+            <li>✅ Performance-optimized for defense simulations</li>
+            <li>✅ Professional training module ready</li>
+          </ul>
+        </div>
 
-        // Stars/Particles
-        const starsGeometry = new THREE.BufferGeometry();
-        const starsCount = 2000;
-        const posArray = new Float32Array(starsCount * 3);
+        <div class="project-stats">
+          <div class="stat">
+            <span class="stat-label">3D Models Created</span>
+            <span class="stat-value small">50+</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Simulation Scenarios</span>
+            <span class="stat-value small">12</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Render Quality</span>
+            <span class="stat-value small">4K Ready</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        for(let i=0; i < starsCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 1000;
-        }
+    <!-- ACHIEVEMENTS SECTION -->
+    <section id="achievements">
+      <h2>🏆 Achievements</h2>
 
-        starsGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-        const starsMaterial = new THREE.PointsMaterial({
-            size: 2,
-            color: 0x00f3ff,
-            transparent: true,
-            opacity: 0.8
-        });
+      <div style="margin-bottom: 30px; padding: 20px; background: rgba(0, 243, 255, 0.05); border-left: 4px solid var(--neon-cyan); border-radius: 8px;">
+        <h3 style="color: var(--neon-cyan); margin-bottom: 10px;">AI Fest 2026 – Reality X Innovation Challenge</h3>
+        <p style="margin-bottom: 8px;"><strong>Venue:</strong> Chandigarh University | <strong>Dates:</strong> February 19–21, 2026</p>
+        <p style="margin-bottom: 15px;"><strong>Award:</strong> 2nd Prize – Advanced Defence Technology & AI Innovation</p>
+        <p style="line-height: 1.7; color: #ddd;">Developed a Cruise Missile Defence System using Unreal Engine with tablet-based control and real-time AI-driven threat detection for modern air-defence simulation.</p>
+      </div>
 
-        const starField = new THREE.Points(starsGeometry, starsMaterial);
-        scene.add(starField);
+      <div style="padding: 20px; background: rgba(188, 19, 254, 0.05); border-left: 4px solid var(--neon-purple); border-radius: 8px;">
+        <h3 style="color: var(--neon-purple); margin-bottom: 10px;">Pro Expo 2026 – VR Campus Showcase</h3>
+        <p style="margin-bottom: 8px;"><strong>Award:</strong> 2nd Prize – Immersive Experience Design</p>
+        <p style="line-height: 1.7; color: #ddd;">Presented the VR Campus Navigation System with large-scale optimization for Meta Quest headsets.</p>
+      </div>
+    </section>
 
-        // Torus Knot for central element
-        const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
-        const material = new THREE.MeshBasicMaterial({ color: 0xbc13fe, wireframe: true });
-        const torusKnot = new THREE.Mesh(geometry, material);
-        scene.add(torusKnot);
+    <section id="contact">
+      <h2><i class="fas fa-broadcast-tower"></i> Establish Connection</h2>
+      <div class="skills-grid">
+        <a href="mailto:amanu0155@gmail.com" class="skill-card" style="text-decoration:none; color:inherit;">
+          <i class="fas fa-envelope"></i>
+          <h4>Direct Link</h4>
+          <p>amanu0155@gmail.com</p>
+        </a>
+        <a href="https://linkedin.com/in/amanrana" target="_blank" class="skill-card" style="text-decoration:none; color:inherit;">
+          <i class="fab fa-linkedin"></i>
+          <h4>LinkedIn</h4>
+          <p>Secure Handshake</p>
+        </a>
+        <div class="skill-card">
+          <i class="fas fa-phone"></i>
+          <h4>Voice Comms</h4>
+          <p>+91 9815998939</p>
+        </div>
+      </div>
+    </section>
 
-        camera.position.z = 50;
+    <footer>
+      <p>&copy; 2026 Aman Rana // System Status: Fully Operational</p>
+    </footer>
+  </div>
 
-        // Mouse tracking for parallax
-        let mouseX = 0;
-        let mouseY = 0;
+  <script>
+    // Three.js Background Animation
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      window.innerWidth / window.innerHeight,
+      0.1,
+      1000
+    );
+    const renderer = new THREE.WebGLRenderer({
+      canvas: document.getElementById('bg-canvas'),
+      antialias: true
+    });
 
-        document.addEventListener('mousemove', (event) => {
-            mouseX = (event.clientX - window.innerWidth / 2) / 100;
-            mouseY = (event.clientY - window.innerHeight / 2) / 100;
-        });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
 
-        function animate() {
-            requestAnimationFrame(animate);
-            
-            torusKnot.rotation.x += 0.01;
-            torusKnot.rotation.y += 0.01;
-            
-            starField.rotation.y += 0.001;
-            
-            // Parallax effect
-            scene.rotation.y += (mouseX - scene.rotation.y) * 0.05;
-            scene.rotation.x += (mouseY - scene.rotation.x) * 0.05;
+    // Stars/Particles
+    const starsGeometry = new THREE.BufferGeometry();
+    const starsCount = 2000;
+    const posArray = new Float32Array(starsCount * 3);
 
-            renderer.render(scene, camera);
-        }
+    for (let i = 0; i < starsCount * 3; i++) {
+      posArray[i] = (Math.random() - 0.5) * 1000;
+    }
 
-        animate();
+    starsGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
-        // Responsive resize
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
+    const starsMaterial = new THREE.PointsMaterial({
+      size: 2,
+      color: 0x00f3ff,
+      transparent: true,
+      opacity: 0.8
+    });
 
-        // Set profile image if URL is provided
-        // document.getElementById('profileImg').src = 'YOUR_PHOTO_URL';
-    </script>
+    const starField = new THREE.Points(starsGeometry, starsMaterial);
+    scene.add(starField);
+
+    // Torus Knot for central element
+    const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+    const material = new THREE.MeshBasicMaterial({
+      color: 0xbc13fe,
+      wireframe: true
+    });
+
+    const torusKnot = new THREE.Mesh(geometry, material);
+    scene.add(torusKnot);
+
+    camera.position.z = 50;
+
+    // Mouse tracking for parallax
+    let mouseX = 0;
+    let mouseY = 0;
+
+    document.addEventListener('mousemove', (event) => {
+      mouseX = (event.clientX - window.innerWidth / 2) / 100;
+      mouseY = (event.clientY - window.innerHeight / 2) / 100;
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      torusKnot.rotation.x += 0.01;
+      torusKnot.rotation.y += 0.01;
+      starField.rotation.y += 0.001;
+
+      // Parallax effect
+      scene.rotation.y += (mouseX - scene.rotation.y) * 0.05;
+      scene.rotation.x += (mouseY - scene.rotation.x) * 0.05;
+
+      renderer.render(scene, camera);
+    }
+
+    animate();
+
+    // Responsive resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // You can override the profile image like this if needed:
+    // document.getElementById('profileImg').src = 'YOUR_PHOTO_URL';
+  </script>
 </body>
 </html>
