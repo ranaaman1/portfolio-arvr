@@ -515,6 +515,64 @@
         max-width: 230px;
       }
     }
+    
+    /* Professional Overview & Leadership Sections */
+    #professional-overview,
+    #leadership {
+      background: radial-gradient(circle at top, rgba(0,243,255,0.08), rgba(0,0,0,0.92));
+      border: 1px solid rgba(0,243,255,0.4);
+      box-shadow: 0 0 30px rgba(0,243,255,0.2);
+    }
+
+    #professional-overview p {
+      margin-bottom: 20px;
+      line-height: 1.8;
+      color: #ddd;
+      font-size: 1rem;
+    }
+
+    #professional-overview p strong {
+      color: #00f3ff;
+    }
+
+    .competency-group {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .competency-item {
+      padding: 20px;
+      background: rgba(0,243,255,0.05);
+      border-left: 4px solid #00f3ff;
+      border-radius: 12px;
+      transition: all 0.3s;
+    }
+
+    .competency-item:hover {
+      background: rgba(0,243,255,0.12);
+      box-shadow: inset 0 0 15px rgba(0,243,255,0.1);
+      transform: translateX(5px);
+    }
+
+    .competency-item h3 {
+      color: #00f3ff;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .competency-item p {
+      color: #ccc;
+      line-height: 1.7;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 768px) {
+      #professional-overview p,
+      .competency-item p {
+        font-size: 0.9rem;
+      }
+    }
   </style>
 </head>
 
@@ -580,6 +638,60 @@
         </div>
       </div>
     </section>
+
+        <!-- PROFESSIONAL OVERVIEW & LEADERSHIP SECTION -->
+    <section id="professional-overview">
+      <h2><i class="fas fa-briefcase"></i> Professional Overview</h2>
+      
+      <p>
+        I'm a final-year BCA AR/VR student at Chandigarh University, specializing in spatial computing, 3D visualization, and digital twinning for high-fidelity virtual simulations. I design end-to-end immersive pipelines that move from real-world environments to optimized deployments on VR headsets.
+      </p>
+      
+      <p>
+        My expertise lies in converting complex spaces—campuses, defence systems, and architecture—into reliable virtual experiences using tools like Twinmotion, Unreal Engine, Unity, and Blender. I focus on performance-driven environment design, lighting and material optimization, and intuitive interaction systems that feel natural in VR.
+      </p>
+      
+      <p>
+        <strong>Co-founder & Secretary of an AR/VR initiative</strong> – I build solutions that fuse immersive technology with real-world use cases such as education, real-estate visualization, and defence simulation. I currently serve as <strong>Secretary of the university AR/VR club</strong>, where I coordinate teams, design technical roadmaps, and mentor peers on engine workflows, asset optimization, and VR deployment.
+      </p>
+      
+      <p>
+        My professional journey includes leading multi-semester projects, winning expo and AI fest awards, and presenting work to academic and industry panels. I'm driven to combine technical precision, systems thinking, and leadership to create immersive simulations that are not only visually impressive but strategically useful for decision-making and training.
+      </p>
+    </section>
+
+    <!-- LEADERSHIP & MANAGEMENT SECTION -->
+    <section id="leadership">
+      <h2><i class="fas fa-users"></i> Leadership & Management</h2>
+      
+      <div class="competency-group">
+        <div class="competency-item">
+          <h3>🎯 Co-founder & Secretary – AR/VR Innovation Initiative</h3>
+          <p>Built an immersive-tech initiative focused on 3D simulation and XR experiences for education, property, and defence-style scenarios; responsible for strategy, pipeline design, and delivery.</p>
+        </div>
+        
+        <div class="competency-item">
+          <h3>🎓 Secretary – AR/VR Club (Chandigarh University)</h3>
+          <p>Lead club operations, technical workshops, and project showcases; mentor juniors on Unreal/Unity workflows, VR optimization, and portfolio-ready project structure.</p>
+        </div>
+        
+        <div class="competency-item">
+          <h3>🌐 Joint Secretary – VR Pioneer Society</h3>
+          <p>Support planning and execution of university-level VR events, talks, and demo days, bridging between student teams and faculty coordinators.</p>
+        </div>
+        
+        <div class="competency-item">
+          <h3>🚀 Head Coordinator – AI Fest Genesis X</h3>
+          <p>Managed cross-team coordination for submissions, demo setups, and judging workflows for AI and XR projects.</p>
+        </div>
+        
+        <div class="competency-item">
+          <h3>👥 Team Lead – Multi-project AR/VR Pipeline</h3>
+          <p>Led teams across 3D modeling, engine integration, and performance tuning for campus-scale simulations and defence-themed VR modules.</p>
+        </div>
+      </div>
+    </section>
+
 
     <!-- ACTIVE DEPLOYMENTS -->
     <section id="projects">
