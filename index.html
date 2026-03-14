@@ -1210,15 +1210,41 @@
     const starField = new THREE.Points(starsGeometry, starsMaterial);
     scene.add(starField);
 
-    // Torus Knot for central element
-    const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
-    const material = new THREE.MeshBasicMaterial({
-      color: 0xbc13fe,
+    // AR/VR Portal Logo - Professional 3D Element
+    // Creates nested rotating rings representing immersive gateway
+    const logoGroup = new THREE.Group();
+    
+    // Create 3 concentric torus rings with different colors
+    const torusGeometry1 = new THREE.TorusGeometry(8, 0.6, 32, 100);
+    const torusMaterial1 = new THREE.MeshBasicMaterial({
+      color: 0xbc13fe,  // Magenta
       wireframe: true
     });
-
-    const torusKnot = new THREE.Mesh(geometry, material);
-    scene.add(torusKnot);
+    const torus1 = new THREE.Mesh(torusGeometry1, torusMaterial1);
+    torus1.rotation.x = Math.PI / 4;
+    
+    const torusGeometry2 = new THREE.TorusGeometry(5.5, 0.5, 32, 100);
+    const torusMaterial2 = new THREE.MeshBasicMaterial({
+      color: 0x00f3ff,  // Cyan
+      wireframe: true
+    });
+    const torus2 = new THREE.Mesh(torusGeometry2, torusMaterial2);
+    torus2.rotation.y = Math.PI / 3;
+    
+    const torusGeometry3 = new THREE.TorusGeometry(3, 0.4, 32, 100);
+    const torusMaterial3 = new THREE.MeshBasicMaterial({
+      color: 0xbc13fe,  // Magenta
+      wireframe: true
+    });
+    const torus3 = new THREE.Mesh(torusGeometry3, torusMaterial3);
+    torus3.rotation.z = Math.PI / 6;
+    
+    logoGroup.add(torus1);
+    logoGroup.add(torus2);
+    logoGroup.add(torus3);
+    
+    const torusKnot = logoGroup;  // Reference for animation loop
+    scene.add(torusKnot)
 
     camera.position.z = 50;
 
