@@ -1,1286 +1,1055 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Aman Rana | AR/VR Experience Developer</title>
-
-  <!-- Three.js for 3D Background -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> <!-- [web:2] -->
-
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- [web:10] -->
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aman Rana | MBA, Data Science & AI Student</title>
+  <meta name="description" content="Aman Rana is an MBA, Data Science & AI student focused on business strategy, analytics, innovation, and leadership." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
     :root {
-      --neon-cyan: #00f3ff;
-      --neon-purple: #bc13fe;
-      --dark-bg: #0a0a12;
-      --card-bg: rgba(20, 20, 35, 0.8);
+      --bg: #f3f1ec;
+      --bg-alt: #e8e2d7;
+      --panel: rgba(255, 255, 255, 0.84);
+      --panel-strong: rgba(255, 255, 255, 0.96);
+      --primary: #123a5b;
+      --primary-strong: #1d4f78;
+      --accent: #c7983d;
+      --accent-soft: rgba(199, 152, 61, 0.12);
+      --line: rgba(18, 58, 91, 0.12);
+      --text: #10273b;
+      --muted: #4d6175;
+      --shadow: 0 18px 55px rgba(16, 39, 59, 0.08);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      cursor: crosshair;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Space Grotesk', sans-serif;
-      background-color: var(--dark-bg);
-      color: white;
+      font-family: 'Inter', sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(29, 79, 120, 0.08), transparent 25%),
+        radial-gradient(circle at bottom right, rgba(199, 152, 61, 0.09), transparent 24%),
+        linear-gradient(180deg, #f6f3ee 0%, #efede7 100%);
+      color: var(--text);
+      line-height: 1.7;
       overflow-x: hidden;
-      scroll-behavior: smooth;
+      padding-top: 78px;
     }
-
-    #bg-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-    }
-
-    .container {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 40px 20px;
-      position: relative;
-      z-index: 1;
-    }
-
-    header {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      background: radial-gradient(circle at center, rgba(188, 19, 254, 0.1) 0%, transparent 70%);
-    }
-
-    .hero-img {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      border: 4px solid var(--neon-cyan);
-      box-shadow: 0 0 30px var(--neon-cyan);
-      margin-bottom: 30px;
-      object-fit: cover;
-      animation: float 4s ease-in-out infinite;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0); }
-      50% { transform: translateY(-20px) rotate(5deg); }
-    }
-
-    h1 {
-      font-size: 4rem;
-      text-transform: uppercase;
-      letter-spacing: 5px;
-      background: linear-gradient(to right, var(--neon-cyan), var(--neon-purple));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 10px;
-      text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
-    }
-
-    .glitch-text {
-      font-size: 1.5rem;
-      color: var(--neon-cyan);
-      font-weight: 300;
-      margin-bottom: 30px;
-    }
-
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+    .container { max-width: 1180px; margin: 0 auto; padding: 24px 20px 80px; }
     section {
-      margin-bottom: 100px;
-      padding: 40px;
-      background: var(--card-bg);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(12px);
-      box-shadow:
-        0 0 20px rgba(0, 243, 255, 0.1),
-        inset 0 0 20px rgba(188, 19, 254, 0.05);
-      transition: transform 0.3s, border-color 0.3s;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 34px;
+      padding: 34px 28px;
+      backdrop-filter: blur(8px);
     }
-
-    section:hover {
-      transform: scale(1.02);
-      border-color: var(--neon-cyan);
-    }
-
-    h2 {
-      color: var(--neon-purple);
-      font-size: 2rem;
-      margin-bottom: 30px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .skills-grid {
+    .gallery-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 16px;
+      margin-top: 30px;
     }
-
-    .skill-card {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 20px;
-      border-radius: 15px;
-      text-align: center;
-      border: 1px solid transparent;
-      transition: 0.3s;
-    }
-
-    .skill-card:hover {
-      background: rgba(0, 243, 255, 0.1);
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 20px var(--neon-cyan);
-    }
-
-    .skill-card i {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-      color: var(--neon-cyan);
-    }
-
-    .nav-buttons {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      margin-top: 40px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      padding: 15px 40px;
-      border-radius: 50px;
-      text-decoration: none;
-      font-weight: bold;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      transition: 0.3s;
+    .gallery-item {
       position: relative;
       overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: #fff;
+      box-shadow: 0 14px 30px rgba(17, 35, 52, 0.07);
+      grid-column: span 4;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
     }
-
-    .btn-cyan {
-      background: transparent;
-      border: 2px solid var(--neon-cyan);
-      color: var(--neon-cyan);
-    }
-
-    .btn-cyan:hover {
-      background: var(--neon-cyan);
-      color: black;
-      box-shadow: 0 0 40px var(--neon-cyan);
-    }
-
-    .stats {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 50px;
-      flex-wrap: wrap;
-      gap: 30px;
-    }
-
-    .stat-item {
-      text-align: center;
-    }
-
-    .stat-value {
-      font-size: 2.5rem;
-      color: var(--neon-cyan);
-      display: block;
-    }
-
-    .stat-label {
-      color: #999;
-      font-size: 0.9rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 40px;
-      opacity: 0.6;
-    }
-
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: var(--dark-bg);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--neon-purple);
-      border-radius: 10px;
-    }
-
-    .tech-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin: 15px 0;
-    }
-
-    .tech-badge {
-      background: linear-gradient(135deg, #00f3ff15 0%, #bc13fe15 100%);
-      border: 1px solid #00f3ff;
-      color: #00f3ff;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 500;
-    }
-
-    .project-showcase {
-      margin: 20px 0;
-      padding: 15px;
-      background: rgba(0, 243, 255, 0.05);
-      border-radius: 10px;
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .gallery-item {
-      border-radius: 10px;
-      overflow: hidden;
-      border: 1px solid #00f3ff;
-      transition: transform 0.3s, box-shadow 0.3s;
-      background: rgba(0, 0, 0, 0.7);
-    }
-
+    .gallery-item:nth-child(1),
+    .gallery-item:nth-child(5) { grid-column: span 6; }
+    .gallery-item:nth-child(2),
+    .gallery-item:nth-child(3),
+    .gallery-item:nth-child(4),
+    .gallery-item:nth-child(6),
+    .gallery-item:nth-child(7) { grid-column: span 3; }
     .gallery-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+      transform: translateY(-8px) rotate(-0.4deg);
+      border-color: rgba(199, 152, 61, 0.45);
+      box-shadow: 0 24px 48px rgba(16, 39, 59, 0.16);
     }
-
     .gallery-item img {
       width: 100%;
-      height: 200px;
+      height: 258px;
       object-fit: cover;
+      object-position: center;
       display: block;
+      filter: saturate(0.9) contrast(1.04);
+      transition: transform 0.5s ease, filter 0.5s ease;
     }
-
-    .gallery-item p {
-      padding: 10px;
-      color: #00f3ff;
-      text-align: center;
-      font-size: 0.9rem;
+    .gallery-item:hover img {
+      transform: scale(1.06);
+      filter: saturate(1.08) contrast(1.08);
     }
-
-    .key-features {
-      background: rgba(188, 19, 254, 0.08);
-      padding: 15px;
-      border-radius: 10px;
-      margin: 15px 0;
-      border-left: 4px solid #bc13fe;
+    .gallery-item figcaption {
+      padding: 14px 16px 16px;
+      background: rgba(255,255,255,0.96);
     }
-
-    .key-features h4 {
-      color: #bc13fe;
-      margin-bottom: 10px;
-    }
-
-    .key-features ul {
-      list-style: none;
-    }
-
-    .key-features li {
-      color: #ccc;
-      margin: 8px 0;
-      padding-left: 10px;
-    }
-
-    .project-stats {
-      display: flex;
-      gap: 30px;
-      margin-top: 20px;
-      justify-content: space-around;
-      flex-wrap: wrap;
-    }
-
-    .stat {
-      text-align: center;
-    }
-
-    .stat-value.small {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #00f3ff;
+    .gallery-item figcaption strong {
       display: block;
+      color: var(--text);
+      font-size: 0.92rem;
+      margin-bottom: 3px;
     }
-
-    video {
-      background: #000;
-      width: 100%;
-    }
-
-    .scroll-down {
-      margin-top: 40px;
-      font-size: 30px;
-      color: var(--neon-cyan);
-      animation: bounce 2s infinite;
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(10px); }
-    }
-
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 2.2rem;
-      }
-      .container {
-        padding: 20px;
-      }
-      .hero-img {
-        width: 140px;
-        height: 140px;
-      }
-      .nav-buttons {
-        flex-direction: column;
-      }
-    }
-
-    /* Extra detail styles */
-    .image-detail {
-      background: rgba(0, 0, 0, 0.7);
-      padding: 20px;
-      margin-top: 10px;
-      border-left: 4px solid #00f3ff;
-      border-radius: 8px;
-    }
-
-    .image-detail h5 {
-      color: #00f3ff;
-      font-size: 1.1rem;
-      margin-bottom: 15px;
-    }
-
-    .detail-explain,
-    .tech-detail,
-    .workflow-detail,
-    .performance-detail {
-      color: #ddd;
-      font-size: 0.9rem;
-      line-height: 1.6;
-      margin: 10px 0;
-    }
-
-    .detail-explain strong,
-    .tech-detail strong,
-    .workflow-detail strong,
-    .performance-detail strong {
-      color: #bc13fe;
-    }
-
-    .tech-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 15px;
-    }
-
-    .tech-tags .tag {
-      background: linear-gradient(135deg, rgba(0,243,255,0.2), rgba(188,19,254,0.2));
-      border: 1px solid #00f3ff;
-      color: #00f3ff;
-      padding: 5px 12px;
-      border-radius: 15px;
+    .gallery-item figcaption span {
+      color: var(--muted);
       font-size: 0.8rem;
-      font-weight: 500;
     }
-
-    /* —— NEW styles to match your reference panels —— */
-
-    /* Project cards as tall neon panels */
-    #projects {
-      display: flex;
-      flex-direction: column;
-      gap: 40px;
-    }
-
-    .project-card {
-      border-left: none;
-      padding: 30px 20px;
-      margin-bottom: 0;
-      border-radius: 18px;
-      background: radial-gradient(circle at top, rgba(0,243,255,0.12), rgba(0,0,0,0.9));
-      box-shadow: 0 0 25px rgba(0,243,255,0.3);
-      border: 1px solid rgba(0,243,255,0.5);
-      text-align: center;
-    }
-
-    .project-card h3 {
-      font-size: 1.6rem;
-      margin-bottom: 8px;
-    }
-
-    .project-card .date {
-      color: #9adfff;
-      font-size: 0.95rem;
-      margin-bottom: 16px;
-    }
-
-    .project-card p {
-      max-width: 420px;
-      margin: 0 auto 10px auto;
-      line-height: 1.6;
-    }
-
-    .project-card .tech-stack {
-      justify-content: center;
-    }
-
-    .project-card .project-showcase {
-      background: transparent;
-      padding: 0;
-    }
-
-    /* Gallery like narrow neon columns, horizontal scroll */
-    .project-card .gallery {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 20px;
-      overflow-x: auto;
-      padding-bottom: 10px;
-    }
-
-    .project-card .gallery-item {
-      min-width: 260px;
-      max-width: 280px;
-      border-radius: 18px;
-      border: 1px solid rgba(0,243,255,0.5);
-      background: radial-gradient(circle at top, rgba(0,243,255,0.15), rgba(0,0,0,0.95));
-      box-shadow: 0 0 25px rgba(0,243,255,0.35);
-    }
-
-    .project-card .gallery-item img {
-      height: 180px;
-    }
-
-    .project-card .image-detail {
-      background: transparent;
-      padding: 16px 18px 20px 18px;
-      margin-top: 0;
-      border-left: none;
-    }
-
-    .project-card .image-detail h5 {
-      font-size: 1rem;
-      margin-bottom: 12px;
-    }
-
-    .project-card .detail-explain,
-    .project-card .workflow-detail,
-    .project-card .performance-detail {
-      font-size: 0.85rem;
-      text-align: left;
-    }
-
-    .project-card .tech-tags {
-      justify-content: center;
-      margin-top: 12px;
-    }
-
-    .project-card .key-features {
-      max-width: 620px;
-      margin: 20px auto;
-    }
-
-    .project-card .project-stats {
-      max-width: 620px;
-      margin: 10px auto 0 auto;
-    }
-
-    @media (max-width: 768px) {
-      .project-card {
-        padding: 24px 16px;
-      }
-      .project-card .gallery-item {
-        min-width: 220px;
-        max-width: 230px;
-      }
-    }
-    
-    /* Professional Overview & Leadership Sections */
-    #professional-overview,
-    #leadership {
-      background: radial-gradient(circle at top, rgba(0,243,255,0.08), rgba(0,0,0,0.92));
-      border: 1px solid rgba(0,243,255,0.4);
-      box-shadow: 0 0 30px rgba(0,243,255,0.2);
-    }
-
-    #professional-overview p {
-      margin-bottom: 20px;
-      line-height: 1.8;
-      color: #ddd;
-      font-size: 1rem;
-    }
-
-    #professional-overview p strong {
-      color: #00f3ff;
-    }
-
-    .competency-group {
-      display: flex;
-      flex-direction: column;
-      gap: 25px;
-    }
-
-    .competency-item {
-      padding: 20px;
-      background: rgba(0,243,255,0.05);
-      border-left: 4px solid #00f3ff;
-      border-radius: 12px;
-      transition: all 0.3s;
-    }
-
-    .competency-item:hover {
-      background: rgba(0,243,255,0.12);
-      box-shadow: inset 0 0 15px rgba(0,243,255,0.1);
-      transform: translateX(5px);
-    }
-
-    .competency-item h3 {
-      color: #00f3ff;
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-    }
-
-    .competency-item p {
-      color: #ccc;
-      line-height: 1.7;
-      font-size: 0.95rem;
-    }
-
-    @media (max-width: 768px) {
-      #professional-overview p,
-      .competency-item p {
-        font-size: 0.9rem;
-      }
-    }
-    
-    /* Inquire Section & Form Styling */
-    #inquire {
-      background: radial-gradient(circle at top, rgba(0,243,255,0.08), rgba(0,0,0,0.92));
-      border: 1px solid rgba(0,243,255,0.4);
-      box-shadow: 0 0 30px rgba(0,243,255,0.2);
-    }
-
-    .inquiry-form {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 25px;
-    }
-
-    .form-group label {
-      display: block;
-      color: #00f3ff;
-      margin-bottom: 10px;
-      font-weight: 600;
-      font-size: 0.95rem;
-    }
-
-    .form-group label i {
-      margin-right: 8px;
-      opacity: 0.8;
-    }
-
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      padding: 12px 16px;
-      background: rgba(0,243,255,0.05);
-      border: 1px solid rgba(0,243,255,0.3);
-      border-radius: 8px;
-      color: white;
-      font-size: 0.95rem;
-      font-family: inherit;
-      transition: all 0.3s;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus {
-      outline: none;
-      background: rgba(0,243,255,0.1);
-      border-color: #00f3ff;
-      box-shadow: 0 0 15px rgba(0,243,255,0.3);
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-
-    .form-group input::placeholder,
-    .form-group textarea::placeholder {
-      color: rgba(255,255,255,0.4);
-    }
-
-    .submit-btn {
-      width: 100%;
-      padding: 15px 40px;
-      background: linear-gradient(135deg, #00f3ff, #bc13fe);
-      border: none;
-      border-radius: 50px;
-      color: white;
-      font-size: 1.1rem;
-      font-weight: bold;
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.76rem;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      cursor: pointer;
-      transition: all 0.3s;
-      box-shadow: 0 0 20px rgba(0,243,255,0.4);
+      color: var(--primary);
+      margin-bottom: 14px;
+      font-weight: 700;
     }
-
-    .submit-btn:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 0 40px rgba(0,243,255,0.6), 0 0 20px rgba(188,19,254,0.4);
-    }
-
-    .submit-btn i {
-      margin-right: 10px;
-    }
-
-    @media (max-width: 768px) {
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    /* Fixed Navigation Bar */
+    h1, h2, h3, h4 { font-weight: 800; line-height: 1.2; letter-spacing: -0.04em; }
+    h2 { font-size: clamp(2rem, 4vw, 2.7rem); margin-bottom: 18px; color: var(--text); }
+    p { color: var(--muted); font-size: 1.02rem; }
     .nav-bar {
       position: fixed;
       top: 0;
+      left: 0;
       width: 100%;
-      z-index: 1000;
-      background: rgba(10, 10, 18, 0.95);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(0, 243, 255, 0.3);
-      box-shadow: 0 2px 20px rgba(0, 243, 255, 0.2);
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.8);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
     }
-
     .nav-container {
-      max-width: 1200px;
+      max-width: 1180px;
       margin: 0 auto;
+      padding: 16px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 20px;
+      gap: 18px;
     }
-
-    .nav-logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #00f3ff;
-      text-decoration: none;
-      text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
-      transition: all 0.3s;
-    }
-
-    .nav-logo:hover {
-      text-shadow: 0 0 20px rgba(0, 243, 255, 0.8);
-      transform: scale(1.1);
-    }
-
+    .nav-brand { font-weight: 800; font-size: 1.08rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--primary); }
     .nav-menu {
-      display: flex;
       list-style: none;
-      gap: 10px;
-      margin: 0;
-      padding: 0;
-    }
-
-    .nav-menu li {
-      margin: 0;
-    }
-
-    .nav-menu a {
-      color: #fff;
-      text-decoration: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      transition: all 0.3s;
       display: flex;
       align-items: center;
-      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
     }
-
+    .nav-menu a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--text);
+      font-size: 0.83rem;
+      transition: 0.2s ease;
+    }
     .nav-menu a:hover {
-      background: rgba(0, 243, 255, 0.1);
-      color: #00f3ff;
-      box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+      background: rgba(18, 58, 91, 0.04);
+      color: var(--primary);
     }
-
-    .nav-menu i {
-      font-size: 0.85rem;
+    header.hero {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 28px;
+      align-items: center;
+      min-height: 640px;
+      background: linear-gradient(135deg, rgba(18, 58, 91, 0.04), rgba(199, 152, 61, 0.05));
     }
-
-    /* Add padding to body to account for fixed nav */
-    body {
-      padding-top: 70px;
+    .hero-copy { padding: 12px 8px; }
+    .hero-copy h1 {
+      font-size: clamp(2.7rem, 6vw, 5rem);
+      letter-spacing: -0.07em;
+      margin-bottom: 18px;
+      line-height: 0.95;
     }
-
-    @media (max-width: 768px) {
-      .nav-menu {
-        flex-wrap: wrap;
-        gap: 5px;
+    .highlight {
+      display: block;
+      color: var(--primary);
+      position: relative;
+      width: fit-content;
+    }
+    .highlight::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -8px;
+      width: 72%;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--accent);
+      transform: skewX(-24deg);
+    }
+    .hero-copy .subtext {
+      font-size: 1.12rem;
+      max-width: 620px;
+      color: var(--muted);
+      margin-bottom: 26px;
+    }
+    .cta-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 30px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn:focus-visible,
+    .company-link:focus-visible,
+    .nav-menu a:focus-visible,
+    .contact-card a:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    button:focus-visible {
+      outline: 3px solid rgba(199, 152, 61, 0.42);
+      outline-offset: 3px;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+      color: #ffffff;
+      box-shadow: 0 18px 40px rgba(18, 58, 91, 0.15);
+    }
+    .btn-secondary {
+      border-color: rgba(18, 58, 91, 0.18);
+      color: var(--text);
+      background: rgba(18, 58, 91, 0.02);
+    }
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      padding-top: 8px;
+    }
+    .meta-block { min-width: 140px; }
+    .meta-block strong {
+      display: block;
+      font-size: 1.5rem;
+      color: var(--primary);
+      margin-bottom: 2px;
+    }
+    .meta-block span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .hero-meta .meta-block {
+      padding-right: 22px;
+      border-right: 1px solid var(--line);
+    }
+    .hero-meta .meta-block:last-child { border-right: 0; }
+    .hero-card {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 420px;
+      padding: 24px;
+    }
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: 22px 20px 24px 12px;
+      border-radius: 32px;
+      background: linear-gradient(135deg, rgba(18, 58, 91, 0.06), rgba(199, 152, 61, 0.08));
+      border: 1px solid var(--line);
+    }
+    .hero-card::after {
+      content: "STRATEGY  /  EVIDENCE  /  DELIVERY";
+      position: absolute;
+      right: -18px;
+      bottom: 42px;
+      z-index: 2;
+      color: var(--primary);
+      background: #f7f3eb;
+      border: 1px solid rgba(199, 152, 61, 0.35);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      box-shadow: 0 12px 24px rgba(16, 39, 59, 0.1);
+      transform: rotate(-7deg);
+    }
+    .portrait-wrap {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 370px);
+      aspect-ratio: 1;
+      border-radius: 30px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: linear-gradient(145deg, rgba(121, 217, 255, 0.08), rgba(243, 200, 114, 0.06));
+      box-shadow: 0 28px 60px rgba(16, 39, 59, 0.2);
+    }
+    .portrait-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transform: scale(1.06);
+      filter: saturate(1.08) contrast(1.08);
+    }
+    .portrait-tag {
+      position: absolute;
+      z-index: 3;
+      left: 18px;
+      bottom: 18px;
+      background: rgba(8, 24, 38, 0.92);
+      border: 1px solid rgba(247, 217, 140, 0.6);
+      color: #ffffff;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 12px 24px rgba(8, 24, 38, 0.24);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.32);
+    }
+    .split-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 26px; }
+    .about-copy { padding-right: 12px; }
+    .about-copy p + p { margin-top: 14px; }
+    .about-points {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .point-card {
+      background: rgba(121, 217, 255, 0.04);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px 16px;
+    }
+    .point-card i {
+      color: var(--primary);
+      margin-bottom: 12px;
+      font-size: 1.3rem;
+    }
+    .point-card h3 {
+      font-size: 1.08rem;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .profile-box {
+      background: linear-gradient(180deg, rgba(243, 200, 114, 0.08), rgba(121, 217, 255, 0.04));
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 22px;
+    }
+    .profile-box ul {
+      list-style: none;
+      display: grid;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .profile-box li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: var(--muted);
+    }
+    .profile-box i { color: var(--accent); margin-top: 4px; }
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: rgba(121, 217, 255, 0.04);
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+    .skill-card {
+      background: rgba(121, 217, 255, 0.04);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px 18px;
+      text-align: center;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .skill-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(121, 217, 255, 0.5);
+      box-shadow: 0 14px 30px rgba(121, 217, 255, 0.08);
+    }
+    .skill-card i { font-size: 1.8rem; color: var(--primary); margin-bottom: 12px; }
+    .skill-card h3 { font-size: 1.06rem; margin-bottom: 6px; }
+    .skill-card p { font-size: 0.9rem; }
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
+      margin-top: 26px;
+    }
+    .value-card {
+      background: rgba(121, 217, 255, 0.04);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px 18px;
+    }
+    .value-card .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .value-card h3 {
+      font-size: 1.08rem;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .focus-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 24px;
+    }
+    .focus-card {
+      background: rgba(243, 200, 114, 0.04);
+      border: 1px solid rgba(243, 200, 114, 0.18);
+      border-radius: 20px;
+      padding: 22px 20px;
+    }
+    .focus-card h3 { font-size: 1.12rem; margin-bottom: 8px; color: var(--text); }
+    .focus-card p { font-size: 0.95rem; }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: 22px;
+      margin-top: 26px;
+    }
+    .project-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(245,247,250,0.9));
+      border: 1px solid rgba(18, 58, 91, 0.08);
+      border-radius: 22px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+      box-shadow: 0 18px 40px rgba(16, 39, 59, 0.05);
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(199, 152, 61, 0.4);
+      box-shadow: 0 28px 56px rgba(16, 39, 59, 0.14);
+    }
+    .project-visual {
+      background: linear-gradient(135deg, rgba(18, 58, 91, 0.06), rgba(199, 152, 61, 0.08));
+      padding: 18px;
+      min-height: 188px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid rgba(18, 58, 91, 0.08);
+    }
+    .project-visual i { font-size: 3.2rem; color: var(--primary); }
+    .project-body {
+      padding: 22px 20px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+      background: linear-gradient(180deg, rgba(18, 58, 91, 0.01), rgba(243, 200, 114, 0.015));
+    }
+    .project-body h3 { font-size: 1.2rem; color: var(--text); }
+    .project-body .date {
+      font-size: 0.81rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    .project-body p { font-size: 0.95rem; }
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: auto;
+      padding-top: 8px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(121, 217, 255, 0.06);
+      border: 1px solid rgba(121, 217, 255, 0.24);
+      color: var(--primary);
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.74rem;
+      font-weight: 600;
+    }
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .cert-card {
+      background: rgba(121, 217, 255, 0.04);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px 18px;
+    }
+    .cert-card i {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: rgba(243, 200, 114, 0.1);
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .cert-card h3 { font-size: 1.07rem; margin-bottom: 8px; color: var(--text); }
+    .cert-card p { font-size: 0.92rem; }
+    .company-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+      background: linear-gradient(135deg, rgba(18, 58, 91, 0.95), rgba(27, 62, 93, 0.9));
+      border: 1px solid rgba(199, 152, 61, 0.18);
+      border-radius: 24px;
+      padding: 22px 24px;
+      margin-top: 20px;
+      box-shadow: 0 24px 50px rgba(18, 58, 91, 0.12);
+    }
+    .company-card .eyebrow {
+      color: rgba(255,255,255,0.72);
+    }
+    .company-card p {
+      max-width: 640px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .company-name {
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .company-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 210px;
+      padding: 15px 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent), #f7d98c);
+      color: #081826;
+      box-shadow: 0 18px 36px rgba(243, 200, 114, 0.18);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .company-link:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 24px 44px rgba(243, 200, 114, 0.3);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 26px;
+    }
+    .contact-card {
+      background: rgba(121, 217, 255, 0.04);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px 18px;
+      text-align: center;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .contact-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(121, 217, 255, 0.5);
+    }
+    .contact-card i { font-size: 1.8rem; color: var(--primary); margin-bottom: 12px; }
+    .contact-card h3 { font-size: 1.08rem; margin-bottom: 6px; }
+    .contact-card a, .contact-card span { color: var(--muted); font-size: 0.95rem; }
+    .inquiry-note {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    .honeypot { position: absolute; left: -9999px; opacity: 0; pointer-events: none; }
+    form.inquiry-form {
+      display: grid;
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+    .field label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.86rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .field input, .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(121, 217, 255, 0.03);
+      color: var(--text);
+      padding: 14px 16px;
+      font: inherit;
+      resize: vertical;
+      min-height: 52px;
+    }
+    .field input:focus, .field textarea:focus {
+      outline: none;
+      border-color: rgba(121, 217, 255, 0.55);
+      box-shadow: 0 0 0 4px rgba(121, 217, 255, 0.08);
+    }
+    .submit-row { display: flex; justify-content: flex-start; }
+    .submit-button {
+      border: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+      color: #ffffff;
+      font: inherit;
+      font-weight: 800;
+      padding: 14px 22px;
+      border-radius: 999px;
+      box-shadow: 0 18px 40px rgba(121, 217, 255, 0.2);
+    }
+    footer {
+      text-align: center;
+      padding: 20px 10px 40px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+    @media (max-width: 900px) {
+      header.hero, .split-grid, .company-card { grid-template-columns: 1fr; }
+      header.hero { min-height: auto; }
+      .hero-card { order: -1; }
+      .gallery-item,
+      .gallery-item:nth-child(1),
+      .gallery-item:nth-child(2),
+      .gallery-item:nth-child(3),
+      .gallery-item:nth-child(4),
+      .gallery-item:nth-child(5),
+      .gallery-item:nth-child(6),
+      .gallery-item:nth-child(7) { grid-column: span 6; }
+    }
+    @media (max-width: 640px) {
+      body { padding-top: 126px; }
+      .nav-container { flex-direction: column; align-items: flex-start; }
+      .nav-menu { justify-content: flex-start; }
+      section { padding: 24px 18px; }
+      .cta-row { flex-direction: column; align-items: stretch; }
+      .btn { width: 100%; }
+      .company-link { width: 100%; }
+      .hero-card::after {
+        right: 8px;
+        bottom: 28px;
+        font-size: 0.55rem;
       }
-      
-      .nav-menu a {
-        font-size: 0.75rem;
-        padding: 6px 10px;
-      }
-
-      .nav-logo {
-        font-size: 1.4rem;
+      .gallery-item,
+      .gallery-item:nth-child(1),
+      .gallery-item:nth-child(2),
+      .gallery-item:nth-child(3),
+      .gallery-item:nth-child(4),
+      .gallery-item:nth-child(5),
+      .gallery-item:nth-child(6),
+      .gallery-item:nth-child(7) { grid-column: span 12; }
+      .gallery-item img { height: 230px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
       }
     }
   </style>
 </head>
-
 <body>
-
-    <!-- FIXED NAVIGATION BAR -->
   <nav class="nav-bar">
     <div class="nav-container">
-      <a href="#" class="nav-logo">AMAN RANA</a>
+      <a href="#top" class="nav-brand">Aman Rana</a>
       <ul class="nav-menu">
-        <li><a href="#about"><i class="fas fa-user"></i> About</a></li>
-        <li><a href="#tech-stack"><i class="fas fa-cogs"></i> Skills</a></li>
-        <li><a href="#professional-overview"><i class="fas fa-briefcase"></i> Overview</a></li>
-        <li><a href="#leadership"><i class="fas fa-users"></i> Leadership</a></li>
-        <li><a href="#projects"><i class="fas fa-rocket"></i> Projects</a></li>
-        <li><a href="#achievements"><i class="fas fa-trophy"></i> Achievements</a></li>
-        <li><a href="#inquire"><i class="fas fa-paper-plane"></i> Inquire</a></li>
-        <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+        <li><a href="#about"><i class="fas fa-user"></i>About</a></li>
+        <li><a href="#strengths"><i class="fas fa-chart-line"></i>Strengths</a></li>
+        <li><a href="#projects"><i class="fas fa-diagram-project"></i>Projects</a></li>
+        <li><a href="#proof"><i class="fas fa-award"></i>Proof</a></li>
+        <li><a href="https://alterimmersives.tech/index.html" target="_blank" rel="noreferrer"><i class="fas fa-building"></i>Company</a></li>
+        <li><a href="#contact"><i class="fas fa-envelope"></i>Contact</a></li>
       </ul>
     </div>
   </nav>
 
-  <canvas id="bg-canvas"></canvas>
+  <div class="container" id="top">
+    <header class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">MBA • Data Science • AI</div>
+        <div class="hero-badges">
+          <span class="badge"><i class="fas fa-briefcase"></i>Strategy</span>
+          <span class="badge"><i class="fas fa-chart-line"></i>Analytics</span>
+          <span class="badge"><i class="fas fa-robot"></i>AI Leadership</span>
+        </div>
+        <h1>
+          Aman Rana
+          <span class="highlight">Business-minded</span>
+          strategist for AI and data-driven growth.
+        </h1>
+        <p class="subtext">
+          I combine management thinking, data analysis, and AI-driven innovation to turn ideas into practical business solutions. My work focuses on strategy, leadership, product insight, and measurable impact across modern digital ecosystems.
+        </p>
 
-  <div class="container">
-    <header>
-      <div class="glitch-text">AR/VR GAME ENVIRONMENT DEVELOPER</div>
-      <p>Building the future of immersive reality, one pixel at a time.</p>
-      <div class="nav-buttons">
-        <img src="https://i.ibb.co/RGqJx96c/1000370680-transformed.jpg" alt="Aman Rana" class="hero-img" id="profileImg">
-        <a href="#contact" class="btn btn-cyan">Contact</a>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#contact"><i class="fas fa-paper-plane"></i>Start a conversation</a>
+          <a class="btn btn-secondary" href="https://alterimmersives.tech/index.html" target="_blank" rel="noreferrer"><i class="fas fa-arrow-up-right-from-square"></i>Alter Immersives</a>
+        </div>
+
+        <div class="hero-meta">
+          <div class="meta-block">
+            <strong>3</strong>
+            <span>major recognition milestones</span>
+          </div>
+          <div class="meta-block">
+            <strong>AI Fest</strong>
+            <span>2026 student coordination</span>
+          </div>
+          <div class="meta-block">
+            <strong>VR</strong>
+            <span>developer & innovation projects</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="portrait-wrap">
+          <img src="assets/profile-portrait.jpg" alt="Aman Rana in a cream blazer" />
+          <div class="portrait-tag">MBA • Data Science • AI</div>
+        </div>
       </div>
     </header>
 
     <section id="about">
-      <h2><i class="fas fa-user-astronaut"></i> Mission Profile</h2>
-      <p>I specialize in crafting high-performance, visually stunning virtual environments for Unity and Unreal Engine. My focus is on VR navigation systems, lighting optimization, and creating intuitive UI/UX for the metaverse.</p>
+      <div class="eyebrow">About me</div>
+      <div class="split-grid">
+        <div class="about-copy">
+          <h2>Professional profile with a business lens.</h2>
+          <p>
+            I am a student focused on MBA, Data Science, and AI with a strong interest in business transformation, management decision-making, and technology-enabled growth. My background blends technical curiosity with leadership, communication, and strategic execution.
+          </p>
+          <p>
+            I enjoy understanding how data, AI, and digital experiences can support smarter business planning, better communication, and stronger operational outcomes. I am especially interested in leadership, innovation management, and building solutions that connect technical capability with human value.
+          </p>
+          <p>
+            My recent achievements include student coordination at AI Fest 2026, project recognition in university innovation expos, and hands-on work in VR and immersive technology projects that demonstrate both technical depth and execution discipline.
+          </p>
 
-      <div class="stats">
-        <div class="stat-item">
-          <span class="stat-value">2026</span>
-          <span class="stat-label">BCA AR/VR</span>
+          <div class="about-points">
+            <div class="point-card">
+              <i class="fas fa-brain"></i>
+              <h3>AI & analytics</h3>
+              <p>Turning data into insight for business strategy and smarter decisions.</p>
+            </div>
+            <div class="point-card">
+              <i class="fas fa-users-cog"></i>
+              <h3>Leadership</h3>
+              <p>Project coordination, team collaboration, and execution-oriented thinking.</p>
+            </div>
+            <div class="point-card">
+              <i class="fas fa-chart-pie"></i>
+              <h3>Management</h3>
+              <p>Problem solving, planning, and improving systems for real-world outcomes.</p>
+            </div>
+          </div>
         </div>
-        <div class="stat-item">
-          <span class="stat-value">2nd</span>
-          <span class="stat-label">Pro Expo Prize</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value">2nd</span>
-          <span class="stat-label">AI Fest 2026</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value">99%</span>
-          <span class="stat-label">Optimization</span>
+
+        <div class="profile-box">
+          <div class="eyebrow">Profile snapshot</div>
+          <h3 style="font-size: 1.7rem; margin-bottom: 10px; color: var(--text);">Business + innovation</h3>
+          <ul>
+            <li><i class="fas fa-check"></i><span>Strong interest in management consulting, digital strategy, analytics, and AI adoption.</span></li>
+            <li><i class="fas fa-check"></i><span>Hands-on experience in immersive tech, innovation projects, and cross-functional leadership.</span></li>
+            <li><i class="fas fa-check"></i><span>Focused on combining technical understanding with business communication and decision support.</span></li>
+            <li><i class="fas fa-check"></i><span>Interested in building sustainable, scalable solutions that align with market and organizational goals.</span></li>
+          </ul>
         </div>
       </div>
     </section>
 
-    <section id="tech-stack">
-      <h2><i class="fas fa-microchip"></i> Augmented Skills</h2>
+    <section id="strengths">
+      <div class="eyebrow">Core strengths</div>
+      <h2>Strategy, analytics, and technology leadership.</h2>
       <div class="skills-grid">
         <div class="skill-card">
-          <i class="fas fa-cube"></i>
-          <h4>Unity/Unreal</h4>
-          <p>Advanced Game Engines</p>
+          <i class="fas fa-database"></i>
+          <h3>Data Science</h3>
+          <p>Data interpretation, patterns, and actionable insight.</p>
         </div>
         <div class="skill-card">
-          <i class="fas fa-vr-cardboard"></i>
-          <h4>VR Systems</h4>
-          <p>Immersive Navigation</p>
+          <i class="fas fa-robot"></i>
+          <h3>AI & Innovation</h3>
+          <p>Exploring AI use cases for business transformation.</p>
         </div>
         <div class="skill-card">
-          <i class="fas fa-code"></i>
-          <h4>C++/C#</h4>
-          <p>Core Development</p>
+          <i class="fas fa-briefcase"></i>
+          <h3>Management</h3>
+          <p>Planning, organizing, communicating, and leading delivery.</p>
         </div>
         <div class="skill-card">
-          <i class="fas fa-paint-brush"></i>
-          <h4>3D Modeling</h4>
-          <p>Blender & 3ds Max</p>
+          <i class="fas fa-lightbulb"></i>
+          <h3>Problem Solving</h3>
+          <p>Turning ideas into practical, measurable solutions.</p>
+        </div>
+        <div class="skill-card">
+          <i class="fas fa-chart-area"></i>
+          <h3>Business Analytics</h3>
+          <p>Using data to guide strategy and operational decisions.</p>
+        </div>
+        <div class="skill-card">
+          <i class="fas fa-people-group"></i>
+          <h3>Team Leadership</h3>
+          <p>Mentoring teams and improving collaboration for outcomes.</p>
+        </div>
+      </div>
+
+      <div class="value-grid">
+        <div class="value-card">
+          <span class="tag">Value</span>
+          <h3>Decision support</h3>
+          <p>Turning complex information into clear recommendations that leaders can act on.</p>
+        </div>
+        <div class="value-card">
+          <span class="tag">Value</span>
+          <h3>Execution focus</h3>
+          <p>Balancing business goals, project priorities, and measurable outcomes with clarity.</p>
+        </div>
+        <div class="value-card">
+          <span class="tag">Value</span>
+          <h3>Innovation mindset</h3>
+          <p>Combining strategic thinking with emerging technologies to unlock new opportunities.</p>
         </div>
       </div>
     </section>
 
-        <!-- PROFESSIONAL OVERVIEW & LEADERSHIP SECTION -->
-    <section id="professional-overview">
-      <h2><i class="fas fa-briefcase"></i> Professional Overview</h2>
-      
-      <p>
-        I'm a final-year BCA AR/VR student at Chandigarh University, specializing in spatial computing, 3D visualization, and digital twinning for high-fidelity virtual simulations. I design end-to-end immersive pipelines that move from real-world environments to optimized deployments on VR headsets.
-      </p>
-      
-      <p>
-        My expertise lies in converting complex spaces—campuses, defence systems, and architecture—into reliable virtual experiences using tools like Twinmotion, Unreal Engine, Unity, and Blender. I focus on performance-driven environment design, lighting and material optimization, and intuitive interaction systems that feel natural in VR.
-      </p>
-      
-      <p>
-        <strong>Co-founder & Secretary of an AR/VR initiative</strong> – I build solutions that fuse immersive technology with real-world use cases such as education, real-estate visualization, and defence simulation. I currently serve as <strong>Secretary of the university AR/VR club</strong>, where I coordinate teams, design technical roadmaps, and mentor peers on engine workflows, asset optimization, and VR deployment.
-      </p>
-      
-      <p>
-        My professional journey includes leading multi-semester projects, winning expo and AI fest awards, and presenting work to academic and industry panels. I'm driven to combine technical precision, systems thinking, and leadership to create immersive simulations that are not only visually impressive but strategically useful for decision-making and training.
-      </p>
-    </section>
-
-    <!-- LEADERSHIP & MANAGEMENT SECTION -->
-    <section id="leadership">
-      <h2><i class="fas fa-users"></i> Leadership & Management</h2>
-      
-      <div class="competency-group">
-        <div class="competency-item">
-          <h3>🎯 Co-founder & Secretary – AR/VR Innovation Initiative</h3>
-          <p>Built an immersive-tech initiative focused on 3D simulation and XR experiences for education, property, and defence-style scenarios; responsible for strategy, pipeline design, and delivery.</p>
+    <section id="management">
+      <div class="eyebrow">Leadership lens</div>
+      <h2>Focused on management, execution, and business impact.</h2>
+      <div class="focus-grid">
+        <div class="focus-card">
+          <h3>Business transformation</h3>
+          <p>I focus on how technology and data can improve processes, decision-making, and business value in practical, sustainable ways.</p>
         </div>
-        
-        <div class="competency-item">
-          <h3>🎓 Secretary – AR/VR Club (Chandigarh University)</h3>
-          <p>Lead club operations, technical workshops, and project showcases; mentor juniors on Unreal/Unity workflows, VR optimization, and portfolio-ready project structure.</p>
+        <div class="focus-card">
+          <h3>AI adoption mindset</h3>
+          <p>I explore where AI can create smarter workflows, better insights, and stronger strategic decisions for organizations.</p>
         </div>
-        
-        <div class="competency-item">
-          <h3>🌐 Secretary – VR Pioneer Society</h3>
-          <p>Support planning and execution of university-level VR events, talks, and demo days, bridging between student teams and faculty coordinators.</p>
+        <div class="focus-card">
+          <h3>Operational planning</h3>
+          <p>My interest lies in translating vision into structured execution: timelines, priorities, collaboration, and measurable outcomes.</p>
         </div>
-        
-        <div class="competency-item">
-          <h3>🚀 Head Coordinator – AI Fest Genesis X</h3>
-          <p>Managed cross-team coordination for submissions, demo setups, and judging workflows for AI and XR projects.</p>
-        </div>
-        
-        <div class="competency-item">
-          <h3>👥 Team Lead – Multi-project AR/VR Pipeline</h3>
-          <p>Led teams across 3D modeling, engine integration, and performance tuning for campus-scale simulations and defence-themed VR modules.</p>
+        <div class="focus-card">
+          <h3>Communication & leadership</h3>
+          <p>I value clear thinking, stakeholder alignment, and the ability to bridge technical ideas with business understanding.</p>
         </div>
       </div>
     </section>
 
-
-    <!-- ACTIVE DEPLOYMENTS -->
     <section id="projects">
-      <h2><i class="fas fa-project-diagram"></i> Active Deployments</h2>
+      <div class="eyebrow">Selected work</div>
+      <h2>Innovation projects with strategic value.</h2>
 
-      <div class="project-card">
-        <h3>🎬 VR Campus Navigation System</h3>
-        <p class="date">Chandigarh University | Jan 2025 - Present</p>
-        <p><strong>Advanced 3D VR Campus Infrastructure Visualization</strong></p>
-        <p>
-          A large-scale, fully navigable VR campus environment for Chandigarh University featuring realistic spatial layouts,
-          real-time lighting optimization, and intuitive navigation systems optimized for VR headsets.
-        </p>
-
-        <div class="tech-stack">
-          <span class="tech-badge">🎮 Unreal Engine 5</span>
-          <span class="tech-badge">3D Blender</span>
-          <span class="tech-badge">Twinmotion</span>
-          <span class="tech-badge">3ds Max</span>
-        </div>
-
-        <div class="project-showcase">
-          <p><strong>🎥 Live Project Video Demonstration:</strong></p>
-          <video style="border-radius: 12px; margin: 15px 0;" controls>
-            <source src="https://www.dropbox.com/scl/fi/4rq0ymqt67jbvnwx06064/Video3_000.mp4?rlkey=ngt87ap6y8i90qr4go5zuqx2k&raw=1" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-        </div>
-
-        <div class="key-features">
-          <h4>Key Features & Achievements:</h4>
-          <ul>
-            <li>✅ Large-scale VR environment with accurate spatial layouts</li>
-            <li>✅ LOD (Level of Detail) systems for performance optimization</li>
-            <li>✅ Real-time lighting workflows with dynamic shadows</li>
-            <li>✅ Intuitive VR navigation & interaction systems</li>
-            <li>✅ Figma-based UI/UX design integration</li>
-            <li>✅ High-performance asset optimization for VR headsets</li>
-            <li>✅ Realistic environmental modeling with attention to detail</li>
-          </ul>
-        </div>
-
-        <div class="project-stats">
-          <div class="stat">
-            <span class="stat-label">Polygons Optimized</span>
-            <span class="stat-value small">2.4M+</span>
-          </div>
-          <div class="stat">
-            <span class="stat-label">Rendering Performance</span>
-            <span class="stat-value small">90+ FPS</span>
-          </div>
-          <div class="stat">
-            <span class="stat-label">Campus Area</span>
-            <span class="stat-value small">1.2 KM²</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <h3>🚀 Air Defense Missile Simulation System</h3>
-        <p class="date">Defense-Grade VR Training Module</p>
-        <p><strong>High-Fidelity 3D Asset Development & Unreal Engine Implementation</strong></p>
-        <p>
-          Comprehensive 3D modeling and VR simulation environment for air defense and missile systems. Professional-grade assets created in Blender with advanced materials,
-          physics simulation, and real-time rendering in Unreal Engine for defense training applications.
-        </p>
-
-        <div class="tech-stack">
-          <span class="tech-badge">🎮 Unreal Engine 5</span>
-          <span class="tech-badge">Blender 3D</span>
-          <span class="tech-badge">🎬 Sequencer</span>
-          <span class="tech-badge">Blueprint Scripting</span>
-        </div>
-
-        <div class="project-showcase">
-          <p><strong>📸 Project Showcase Gallery:</strong></p>
-
-          <div class="gallery">
-            <div class="gallery-item">
-              <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800" alt="Advanced Missile Launch System">
-              <div class="image-detail">
-                <h5>🚀 Advanced Missile Launch Command Center</h5>
-                <p class="detail-explain">
-                  <strong>What You're Seeing:</strong> A comprehensive 3D model of a missile launch control center built entirely in Blender.
-                  This scene showcases military-grade accuracy with detailed control panels, radar systems, and launch mechanisms.
-                </p>
-                <img src="https://i.ibb.co/YF9fGJJx/Whats-App-Image-2026-02-24-at-9-35-12-AM.jpg" alt="VR Control Room - Missile Launch Interface">
-                <p class="workflow-detail">
-                  <strong>Workflow:</strong> Blender (Base Modeling) → Substance Painter (Texturing) → Unreal Engine 5 (Real-time Rendering & Blueprint Integration)
-                </p>
-                <div class="tech-tags">
-                  <span class="tag">🔧 Blender</span>
-                  <span class="tag">🎮 UE5</span>
-                  <span class="tag">PBR Materials</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="gallery-item">
-              <img src="https://images.unsplash.com/photo-1618005182384-a83a8e7d8c88?w=800" alt="Defense Targeting System">
-              <div class="image-detail">
-                <h5>🎯 Real-Time Targeting & Acquisition System</h5>
-                <p class="detail-explain">
-                  <strong>What You're Seeing:</strong> An interactive targeting interface designed for air defense simulation training.
-                  Features real-time radar tracking, threat assessment displays, and multi-target lock capabilities built in Unreal Engine's Blueprint system.
-                </p>
-                <img src="https://i.ibb.co/nq9fL8Rm/Whats-App-Image-2026-02-24-at-9-35-45-AM.jpg" alt="Missile Launch - Real-time Rendering">
-                <p class="workflow-detail">
-                  <strong>Development Stack:</strong> Blueprint Visual Scripting → Widget UI Design → C++ Physics Integration → Real-time Data Visualization
-                </p>
-                <p class="performance-detail">
-                  <strong>Performance:</strong> Optimized to track 12+ simultaneous targets while maintaining 60+ FPS on standard hardware.
-                </p>
-                <div class="tech-tags">
-                  <span class="tag">📊 Real-time UI</span>
-                  <span class="tag">Blueprint System</span>
-                  <span class="tag">Physics Simulation</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="gallery-item">
-              <img src="https://images.unsplash.com/photo-1620712014215-23a4a81ae702?w=500" alt="Terrain Mapping">
-              <div class="image-detail">
-                <h5>🎯 3D Terrain & Threat Assessment Mapping</h5>
-                <p class="detail-explain">
-                  <strong>What You're Seeing:</strong> A sophisticated 3D terrain visualization integrated with real-time threat assessment systems.
-                  Shows geographical mapping data with overlay of potential engagement zones and hostile position indicators.
-                </p>
-                <img src="https://i.ibb.co/RTzMxt7s/Whats-App-Image-2026-02-24-at-9-35-30-AM.jpg" alt="Unreal Engine Blueprint System">
-                <p class="workflow-detail">
-                  <strong>Workflow:</strong> Geospatial Data Processing → Blender Terrain Generation → Substance Designer (Texturing) → Unreal Engine 5 (Real-time Visualization & Blueprint Integration)
-                </p>
-                <div class="tech-tags">
-                  <span class="tag">🌍 Terrain Data</span>
-                  <span class="tag">🎮 UE5</span>
-                  <span class="tag">Threat Visualization</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="gallery-item">
-              <img src="https://i.ibb.co/Ps33Nj3Y/Whats-App-Image-2026-02-24-at-9-42-25-AM.jpg" alt="Advanced Targeting System">
-              <div class="image-detail">
-                <h5>🎯 Advanced Targeting System</h5>
-                <p class="detail-explain">
-                  <strong>What You're Seeing:</strong> A sophisticated targeting interface with real-time threat tracking and analysis.
-                  This system showcases advanced UI/UX design integrated with Unreal Engine's Blueprint system for responsive, high-performance military simulation.
-                </p>
-                <img src="https://i.ibb.co/Ps33Nj3Y/Whats-App-Image-2026-02-24-at-9-42-25-AM.jpg" alt="Targeting System Interface">
-                <p class="workflow-detail">
-                  <strong>Technical Implementation:</strong> Widget Blueprint → C++ Integration → Real-time Data Processing → HUD Rendering Pipeline
-                </p>
-                <div class="tech-tags">
-                  <span class="tag">🎯 Targeting AI</span>
-                  <span class="tag">🎮 Blueprint</span>
-                  <span class="tag">Real-time Analysis</span>
-                </div>
-              </div>
+      <div class="projects-grid">
+        <article class="project-card">
+          <div class="project-visual"><i class="fas fa-city"></i></div>
+          <div class="project-body">
+            <div class="date">2025 • Campus innovation</div>
+            <h3>3D VR Environment</h3>
+            <p>Developed a spatial, interactive environment focused on immersive navigation, digital experience design, and creative problem-solving in a real-world university setting.</p>
+            <div class="chip-row">
+              <span class="chip">VR</span>
+              <span class="chip">3D Design</span>
+              <span class="chip">Immersive UX</span>
             </div>
           </div>
-        </div>
+        </article>
 
-        <div class="key-features">
-          <h4>Advanced Features:</h4>
-          <ul>
-            <li>✅ Detailed 3D asset modeling with military-grade accuracy</li>
-            <li>✅ Physics-based projectile simulation</li>
-            <li>✅ Real-time targeting & acquisition systems visualization</li>
-            <li>✅ Advanced material & lighting systems</li>
-            <li>✅ Multi-target engagement scenarios</li>
-            <li>✅ Performance-optimized for defense simulations</li>
-            <li>✅ Professional training module ready</li>
-          </ul>
-        </div>
+        <article class="project-card">
+          <div class="project-visual"><i class="fas fa-shield-alt"></i></div>
+          <div class="project-body">
+            <div class="date">2026 • Innovation challenge</div>
+            <h3>AI & Defense Technology Concept</h3>
+            <p>Worked on a concept integrating AI-driven innovation and simulation thinking, with a focus on operational clarity and future-ready technological application.</p>
+            <div class="chip-row">
+              <span class="chip">AI</span>
+              <span class="chip">Simulation</span>
+              <span class="chip">Strategy</span>
+            </div>
+          </div>
+        </article>
 
-        <div class="project-stats">
-          <div class="stat">
-            <span class="stat-label">3D Models Created</span>
-            <span class="stat-value small">50+</span>
+        <article class="project-card">
+          <div class="project-visual"><i class="fas fa-lightbulb"></i></div>
+          <div class="project-body">
+            <div class="date">Leadership • Strategy</div>
+            <h3>Student coordination & event leadership</h3>
+            <p>Coordinated and supported innovation-focused student initiatives, helping deliver a smooth and professional event experience while strengthening communication and team execution.</p>
+            <div class="chip-row">
+              <span class="chip">Project lead</span>
+              <span class="chip">Coordination</span>
+              <span class="chip">Mentorship</span>
+            </div>
           </div>
-          <div class="stat">
-            <span class="stat-label">Simulation Scenarios</span>
-            <span class="stat-value small">12</span>
-          </div>
-          <div class="stat">
-            <span class="stat-label">Render Quality</span>
-            <span class="stat-value small">4K Ready</span>
-          </div>
-        </div>
+        </article>
       </div>
     </section>
 
-    <!-- ACHIEVEMENTS SECTION -->
-    <section id="achievements">
-      <h2>🏆 Achievements</h2>
-
-      <div style="margin-bottom: 30px; padding: 20px; background: rgba(0, 243, 255, 0.05); border-left: 4px solid var(--neon-cyan); border-radius: 8px;">
-        <h3 style="color: var(--neon-cyan); margin-bottom: 10px;">AI Fest 2026 – Reality X Innovation Challenge</h3>
-        <p style="margin-bottom: 8px;"><strong>Venue:</strong> Chandigarh University | <strong>Dates:</strong> February 19–21, 2026</p>
-        <p style="margin-bottom: 15px;"><strong>Award:</strong> 2nd Prize – Advanced Defence Technology & AI Innovation</p>
-        <p style="line-height: 1.7; color: #ddd;">Developed a Cruise Missile Defence System using Unreal Engine with tablet-based control and real-time AI-driven threat detection for modern air-defence simulation.</p>
+    <section id="proof">
+      <div class="eyebrow">Proof & recognition</div>
+      <h2>Achievements and evidence of momentum.</h2>
+      <div class="cert-grid">
+        <div class="cert-card">
+          <i class="fas fa-trophy"></i>
+          <h3>AI Fest 2026</h3>
+          <p>Recognized as a student coordinator and participant in Chandigarh University's flagship innovation event with strong leadership and event execution impact.</p>
+        </div>
+        <div class="cert-card">
+          <i class="fas fa-award"></i>
+          <h3>Certificate of Appreciation</h3>
+          <p>Awarded for dedicated volunteer support, effective coordination, and proactive involvement during AI Fest 2026.</p>
+        </div>
+        <div class="cert-card">
+          <i class="fas fa-certificate"></i>
+          <h3>Project Expo 2025</h3>
+          <p>Selected for Phase 1 and Phase 2 evaluation of 3D VR Environment project, demonstrating innovation, technical presentation, and project execution.</p>
+        </div>
       </div>
 
-      <div style="padding: 20px; background: rgba(188, 19, 254, 0.05); border-left: 4px solid var(--neon-purple); border-radius: 8px;">
-        <h3 style="color: var(--neon-purple); margin-bottom: 10px;">Pro Expo 2026 – VR Campus Showcase</h3>
-        <p style="margin-bottom: 8px;"><strong>Award:</strong> 2nd Prize – Immersive Experience Design</p>
-        <p style="line-height: 1.7; color: #ddd;">Presented the VR Campus Navigation System with large-scale optimization for Meta Quest headsets.</p>
+      <div class="gallery-grid" aria-label="Certificates and recognition gallery">
+        <figure class="gallery-item"><img src="assets/certificates/Screenshot 2026-10-28 160928.png" alt="Project expo certificate" /><figcaption><strong>Project Expo selection</strong><span>Innovation proof • 2025</span></figcaption></figure>
+        <figure class="gallery-item"><img src="assets/certificates/WhatsApp Image 2026-09-17 at 1.52.51 PM.jpeg" alt="AI Fest appreciation certificate" /><figcaption><strong>AI Fest appreciation</strong><span>Leadership & coordination</span></figcaption></figure>
+        <figure class="gallery-item"><img src="assets/certificates/WhatsApp Image 2026-09-17 at 2.40.41 PM.jpeg" alt="Project achievement certificate" /><figcaption><strong>Innovation milestone</strong><span>Project evaluation • Phase 1</span></figcaption></figure>
+        <figure class="gallery-item"><img src="assets/certificates/WhatsApp Image 2026-09-17 at 2.40.41 PM (1).jpeg" alt="Project achievement certificate phase 2" /><figcaption><strong>Project progression</strong><span>Project evaluation • Phase 2</span></figcaption></figure>
+        <figure class="gallery-item"><img src="assets/certificates/WhatsApp Image 2026-09-18 at 9.26.18 AM.jpeg" alt="AI Fest merit certificate" /><figcaption><strong>AI Fest recognition</strong><span>Student achievement</span></figcaption></figure>
+        <figure class="gallery-item"><img src="assets/certificates/WhatsApp Image 2026-10-28 at 7.23.16 PM.jpeg" alt="Award trophy photo" /><figcaption><strong>Recognition moment</strong><span>Achievement archive</span></figcaption></figure>
+        <figure class="gallery-item"><img src="assets/certificates/WhatsApp Image 2026-10-28 at 7.25.31 PM.jpeg" alt="AI Fest access badge" /><figcaption><strong>Event access</strong><span>AI Fest participation</span></figcaption></figure>
+      </div>
+
+      <div class="company-card">
+        <div>
+          <div class="eyebrow">Business profile</div>
+          <div class="company-name">Alter Immersives</div>
+          <p>I also support and represent the company work through my broader professional and innovation-focused portfolio. The company profile is available here for direct review.</p>
+        </div>
+        <a class="company-link" href="https://alterimmersives.tech/index.html" target="_blank" rel="noreferrer">Visit company site <i class="fas fa-arrow-right"></i></a>
       </div>
     </section>
-
-        <!-- INQUIRE SECTION -->
-    <section id="inquire">
-      <h2><i class="fas fa-paper-plane"></i> Get In Touch</h2>
-      <p style="text-align: center; max-width: 600px; margin: 0 auto 40px auto; color: #ddd;">
-        Have a project in mind or want to collaborate? Drop me a message and let's create something extraordinary together.
-      </p>
-      
-      <form class="inquiry-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-        <div class="form-row">
-          <div class="form-group">
-            <label for="name"><i class="fas fa-user"></i> Full Name</label>
-            <input type="text" id="name" name="name" placeholder="Your Name" required>
-          </div>
-          
-          <div class="form-group">
-            <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
-            <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
-          </div>
-        </div>
-        
-        <div class="form-group">
-          <label for="subject"><i class="fas fa-tag"></i> Subject</label>
-          <input type="text" id="subject" name="subject" placeholder="What's this about?" required>
-        </div>
-        
-        <div class="form-group">
-          <label for="message"><i class="fas fa-comment-dots"></i> Message</label>
-          <textarea id="message" name="message" rows="6" placeholder="Tell me about your project or inquiry..." required></textarea>
-        </div>
-        
-        <button type="submit" class="submit-btn">
-          <i class="fas fa-rocket"></i> Send Message
-        </button>
-      </form>
-    </section>
-
 
     <section id="contact">
-      <h2><i class="fas fa-broadcast-tower"></i> Establish Connection</h2>
-      <div class="skills-grid">
-        <a href="mailto:amanu0155@gmail.com" class="skill-card" style="text-decoration:none; color:inherit;">
+      <div class="eyebrow">Contact</div>
+      <h2>Let’s build something impactful.</h2>
+
+      <div class="contact-grid">
+        <div class="contact-card">
           <i class="fas fa-envelope"></i>
-          <h4>Direct Link</h4>
-          <p>amanu0155@gmail.com</p>
-        </a>
-        <a href="https://www.linkedin.com/in/aman-rana-85b61628a/" target="_blank" class="skill-card" style="text-decoration:none; color:inherit;">
+          <h3>Email</h3>
+          <a href="mailto:amanu0155@gmail.com">amanu0155@gmail.com</a>
+        </div>
+        <div class="contact-card">
           <i class="fab fa-linkedin"></i>
-          <h4>LinkedIn</h4>
-          <p>Secure Handshake</p>
-        </a>
-        <div class="skill-card">
+          <h3>LinkedIn</h3>
+          <a href="https://www.linkedin.com/in/aman-rana-85b61628a/" target="_blank" rel="noreferrer">View profile</a>
+        </div>
+        <div class="contact-card">
           <i class="fas fa-phone"></i>
-          <h4>Voice Comms</h4>
-          <p>+91 9815998939</p>
+          <h3>Phone</h3>
+          <span>+91 9815998939</span>
         </div>
       </div>
-    </section>
 
-    <footer>
-      <p>&copy; 2026 Aman Rana // System Status: Fully Operational</p>
-    </footer>
+      <form class="inquiry-form" action="https://formsubmit.co/amanu0155@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="New portfolio inquiry for Aman Rana" />
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_template" value="table" />
+        <input class="honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" />
+        <div class="form-grid">
+          <div class="field">
+            <label for="name">Full name</label>
+            <input id="name" type="text" name="name" placeholder="Your name" required />
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" name="email" placeholder="you@example.com" required />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="subject">Subject</label>
+          <input id="subject" type="text" name="subject" placeholder="Project, role, or opportunity" required />
+        </div>
+
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="5" placeholder="Tell me about your idea, opportunity, or collaboration." required></textarea>
+        </div>
+
+        <div class="submit-row">
+          <button class="submit-button" type="submit"><i class="fas fa-paper-plane"></i> Send inquiry</button>
+        </div>
+        <p class="inquiry-note">Your message will be sent securely to Aman’s email. Please use a work or university email when possible.</p>
+      </form>
+    </section>
   </div>
 
-  <script>
-    // Three.js Background Animation
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      window.innerWidth / window.innerHeight,
-      0.1,
-      1000
-    );
-    const renderer = new THREE.WebGLRenderer({
-      canvas: document.getElementById('bg-canvas'),
-      antialias: true
-    });
-
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
-
-    // Stars/Particles
-    const starsGeometry = new THREE.BufferGeometry();
-    const starsCount = 2000;
-    const posArray = new Float32Array(starsCount * 3);
-
-    for (let i = 0; i < starsCount * 3; i++) {
-      posArray[i] = (Math.random() - 0.5) * 1000;
-    }
-
-    starsGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-
-    const starsMaterial = new THREE.PointsMaterial({
-      size: 2,
-      color: 0x00f3ff,
-      transparent: true,
-      opacity: 0.8
-    });
-
-    const starField = new THREE.Points(starsGeometry, starsMaterial);
-    scene.add(starField);
-
-    // AR/VR Portal Logo - Professional 3D Element
-    // Creates nested rotating rings representing immersive gateway
-    const logoGroup = new THREE.Group();
-    
-    // Create 3 concentric torus rings with different colors
-    const torusGeometry1 = new THREE.TorusGeometry(8, 0.6, 32, 100);
-    const torusMaterial1 = new THREE.MeshBasicMaterial({
-      color: 0xbc13fe,  // Magenta
-      wireframe: true
-    });
-    const torus1 = new THREE.Mesh(torusGeometry1, torusMaterial1);
-    torus1.rotation.x = Math.PI / 4;
-    
-    const torusGeometry2 = new THREE.TorusGeometry(5.5, 0.5, 32, 100);
-    const torusMaterial2 = new THREE.MeshBasicMaterial({
-      color: 0x00f3ff,  // Cyan
-      wireframe: true
-    });
-    const torus2 = new THREE.Mesh(torusGeometry2, torusMaterial2);
-    torus2.rotation.y = Math.PI / 3;
-    
-    const torusGeometry3 = new THREE.TorusGeometry(3, 0.4, 32, 100);
-    const torusMaterial3 = new THREE.MeshBasicMaterial({
-      color: 0xbc13fe,  // Magenta
-      wireframe: true
-    });
-    const torus3 = new THREE.Mesh(torusGeometry3, torusMaterial3);
-    torus3.rotation.z = Math.PI / 6;
-    
-    logoGroup.add(torus1);
-    logoGroup.add(torus2);
-    logoGroup.add(torus3);
-    
-    const torusKnot = logoGroup;  // Reference for animation loop
-    scene.add(torusKnot)
-
-    camera.position.z = 50;
-
-    // Mouse tracking for parallax
-    let mouseX = 0;
-    let mouseY = 0;
-
-    document.addEventListener('mousemove', (event) => {
-      mouseX = (event.clientX - window.innerWidth / 2) / 100;
-      mouseY = (event.clientY - window.innerHeight / 2) / 100;
-    });
-
-    function animate() {
-      requestAnimationFrame(animate);
-
-      torusKnot.rotation.x += 0.01;
-      torusKnot.rotation.y += 0.01;
-      starField.rotation.y += 0.001;
-
-      // Parallax effect
-      scene.rotation.y += (mouseX - scene.rotation.y) * 0.05;
-      scene.rotation.x += (mouseY - scene.rotation.x) * 0.05;
-
-      renderer.render(scene, camera);
-    }
-
-    animate();
-
-    // Responsive resize
-    window.addEventListener('resize', () => {
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    });
-
-    // document.getElementById('profileImg').src = 'YOUR_PHOTO_URL';
-  </script>
+  <footer>
+    © 2026 Aman Rana • MBA, Data Science & AI Student • Strategy • Analytics • Leadership
+  </footer>
 </body>
 </html>
