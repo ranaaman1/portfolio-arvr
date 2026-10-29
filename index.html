@@ -731,9 +731,278 @@
         animation-duration: 0.01ms !important;
       }
     }
+
+    /* Cinematic streaming-inspired entry experience */
+    body.streaming-mode {
+      padding-top: 0;
+      background: #070707;
+      color: #f5f5f1;
+    }
+    body.streaming-mode .nav-bar {
+      background: rgba(7, 7, 7, 0.88);
+      border-bottom-color: rgba(255,255,255,0.1);
+    }
+    body.streaming-mode .nav-brand,
+    body.streaming-mode .nav-menu a,
+    body.streaming-mode .eyebrow,
+    body.streaming-mode h1,
+    body.streaming-mode h2,
+    body.streaming-mode h3,
+    body.streaming-mode .meta-block strong,
+    body.streaming-mode .project-body h3,
+    body.streaming-mode .company-name,
+    body.streaming-mode .contact-card h3,
+    body.streaming-mode .field label {
+      color: #f5f5f1;
+    }
+    body.streaming-mode .nav-brand { color: #e50914; }
+    body.streaming-mode .nav-menu a:hover { background: rgba(229, 9, 20, 0.14); color: #fff; }
+    body.streaming-mode .container { max-width: 1280px; }
+    body.streaming-mode section,
+    body.streaming-mode header.hero {
+      background: linear-gradient(145deg, #151515, #0d0d0d);
+      border-color: rgba(255,255,255,0.1);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.28);
+    }
+    body.streaming-mode p,
+    body.streaming-mode .meta-block span,
+    body.streaming-mode .contact-card a,
+    body.streaming-mode .contact-card span,
+    body.streaming-mode .company-card p,
+    body.streaming-mode .inquiry-note {
+      color: #b7b7b7;
+    }
+    body.streaming-mode .highlight { color: #fff; }
+    body.streaming-mode .highlight::after { background: #e50914; }
+    body.streaming-mode .btn-primary,
+    body.streaming-mode .submit-button {
+      background: #e50914;
+      box-shadow: 0 16px 38px rgba(229, 9, 20, 0.24);
+    }
+    body.streaming-mode .btn-secondary {
+      color: #fff;
+      border-color: rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.05);
+    }
+    body.streaming-mode .hero-badges .badge,
+    body.streaming-mode .chip {
+      color: #f5f5f1;
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.14);
+    }
+    body.streaming-mode .portrait-tag {
+      background: rgba(7, 7, 7, 0.92);
+      border-color: rgba(229, 9, 20, 0.65);
+    }
+    body.streaming-mode .hero-card::before {
+      background: linear-gradient(135deg, rgba(229, 9, 20, 0.13), rgba(0,0,0,0.24));
+      border-color: rgba(229, 9, 20, 0.25);
+    }
+    body.streaming-mode .hero-card::after {
+      color: #fff;
+      background: #181818;
+      border-color: rgba(229, 9, 20, 0.5);
+    }
+    body.streaming-mode .project-card,
+    body.streaming-mode .skill-card,
+    body.streaming-mode .point-card,
+    body.streaming-mode .value-card,
+    body.streaming-mode .focus-card,
+    body.streaming-mode .cert-card,
+    body.streaming-mode .contact-card,
+    body.streaming-mode .profile-box {
+      background: #191919;
+      border-color: rgba(255,255,255,0.1);
+    }
+    body.streaming-mode .project-card:hover,
+    body.streaming-mode .gallery-item:hover,
+    body.streaming-mode .contact-card:hover {
+      border-color: rgba(229, 9, 20, 0.65);
+      box-shadow: 0 28px 56px rgba(0,0,0,0.42);
+    }
+    body.streaming-mode .project-visual {
+      background: linear-gradient(135deg, rgba(229, 9, 20, 0.2), rgba(255,255,255,0.04));
+    }
+    body.streaming-mode .project-visual i,
+    body.streaming-mode .skill-card i,
+    body.streaming-mode .contact-card i,
+    body.streaming-mode .point-card i {
+      color: #e50914;
+    }
+    body.streaming-mode .company-card {
+      background: linear-gradient(135deg, #2a090b, #171717);
+      border-color: rgba(229, 9, 20, 0.35);
+    }
+    body.streaming-mode .company-card .eyebrow { color: #ff6b72; }
+    body.streaming-mode .company-link {
+      background: #e50914;
+      color: #fff;
+      box-shadow: 0 18px 36px rgba(229, 9, 20, 0.24);
+    }
+    body.streaming-mode .gallery-item { background: #151515; border-color: rgba(255,255,255,0.12); }
+    body.streaming-mode .gallery-item figcaption { background: #151515; }
+    body.streaming-mode .gallery-item figcaption strong { color: #fff; }
+    body.streaming-mode .gallery-item figcaption span { color: #a7a7a7; }
+    body.streaming-mode .field input,
+    body.streaming-mode .field textarea {
+      background: #111;
+      color: #fff;
+      border-color: rgba(255,255,255,0.16);
+    }
+    body.streaming-mode footer { color: #858585; }
+
+    .streaming-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 75% 30%, rgba(229, 9, 20, 0.18), transparent 28%),
+        linear-gradient(115deg, rgba(0,0,0,0.96), rgba(10,10,10,0.9)),
+        #070707;
+      color: #fff;
+      transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.65s;
+    }
+    .streaming-gate.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .streaming-gate::before {
+      content: "";
+      position: absolute;
+      inset: 9%;
+      border: 1px solid rgba(255,255,255,0.08);
+      transform: skewX(-12deg);
+      pointer-events: none;
+    }
+    .gate-panel {
+      position: relative;
+      z-index: 1;
+      width: min(940px, calc(100% - 36px));
+      text-align: center;
+      padding: 48px 24px;
+      animation: gate-arrive 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    .gate-mark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: #e50914;
+      font-size: clamp(2.2rem, 6vw, 4.8rem);
+      font-weight: 900;
+      letter-spacing: -0.08em;
+      line-height: 1;
+      margin-bottom: 26px;
+    }
+    .gate-mark span {
+      display: inline-block;
+      width: 10px;
+      height: 0.9em;
+      background: #e50914;
+      transform: skewX(-18deg);
+    }
+    .gate-panel h2 {
+      color: #fff;
+      font-size: clamp(2.2rem, 6vw, 5rem);
+      margin-bottom: 14px;
+      letter-spacing: -0.07em;
+    }
+    .gate-panel > p {
+      max-width: 620px;
+      margin: 0 auto 34px;
+      color: #b5b5b5;
+      font-size: 1.05rem;
+    }
+    .profile-picker {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(160px, 220px));
+      justify-content: center;
+      gap: 24px;
+      margin-top: 12px;
+    }
+    .profile-option {
+      border: 0;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      text-align: center;
+    }
+    .profile-avatar {
+      position: relative;
+      width: 150px;
+      aspect-ratio: 1;
+      margin: 0 auto 14px;
+      overflow: hidden;
+      border: 3px solid transparent;
+      border-radius: 12px;
+      background: #1d1d1d;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .profile-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .profile-avatar i {
+      display: grid;
+      place-items: center;
+      width: 100%;
+      height: 100%;
+      color: #e50914;
+      font-size: 3rem;
+    }
+    .profile-option:hover .profile-avatar,
+    .profile-option:focus-visible .profile-avatar {
+      transform: scale(1.06);
+      border-color: #e50914;
+      box-shadow: 0 16px 38px rgba(229, 9, 20, 0.28);
+    }
+    .profile-option:focus-visible { outline: none; }
+    .profile-option strong {
+      display: block;
+      font-size: 0.98rem;
+      margin-bottom: 3px;
+    }
+    .profile-option small { color: #8f8f8f; }
+    @keyframes gate-arrive {
+      from { opacity: 0; transform: translateY(24px) scale(0.98); filter: blur(8px); }
+      to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+    @media (max-width: 640px) {
+      .profile-picker { grid-template-columns: repeat(2, minmax(120px, 1fr)); gap: 14px; }
+      .profile-avatar { width: min(34vw, 138px); }
+      .gate-panel { padding: 32px 14px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .gate-panel { animation: none; }
+      .streaming-gate { transition: none; }
+    }
   </style>
 </head>
 <body>
+  <div class="streaming-gate" id="streaming-gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+    <div class="gate-panel">
+      <div class="gate-mark" aria-label="Aman Rana portfolio"><span></span>AMAN RANA</div>
+      <h2 id="gate-title">Welcome to my portfolio.</h2>
+      <p>A cinematic view of strategy, analytics, AI, leadership, and the proof behind the work.</p>
+      <div class="profile-picker" aria-label="Choose a profile">
+        <button class="profile-option" type="button" data-profile="portfolio">
+          <span class="profile-avatar"><img src="assets/profile-portrait.png" alt="" /></span>
+          <strong>Aman Rana</strong>
+          <small>Portfolio</small>
+        </button>
+        <button class="profile-option" type="button" data-profile="company">
+          <span class="profile-avatar"><i class="fas fa-building" aria-hidden="true"></i></span>
+          <strong>Alter Immersives</strong>
+          <small>Company</small>
+        </button>
+      </div>
+    </div>
+  </div>
   <nav class="nav-bar">
     <div class="nav-container">
       <a href="#top" class="nav-brand">Aman Rana</a>
@@ -1090,15 +1359,15 @@
         return;
       }
 
-      submitInquiry.disabled = true;
-      submitInquiry.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving inquiry…';
-
       const formData = new FormData(inquiryForm);
       const message = String(formData.get('message') || '').trim();
       if (message.length < 10) {
         showFormStatus('Please write at least 10 characters so the inquiry has enough detail.', 'error');
         return;
       }
+
+      submitInquiry.disabled = true;
+      submitInquiry.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving inquiry…';
 
       const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const { error } = await client.from('portfolio_inquiries').insert({
@@ -1119,6 +1388,19 @@
 
       inquiryForm.reset();
       showFormStatus('Thanks — your inquiry was received securely.', 'success');
+    });
+
+    document.body.classList.add('streaming-mode');
+    const streamingGate = document.getElementById('streaming-gate');
+    document.querySelectorAll('.profile-option').forEach((option) => {
+      option.addEventListener('click', () => {
+        if (option.dataset.profile === 'company') {
+          window.open('https://alterimmersives.tech/index.html', '_blank', 'noopener,noreferrer');
+        }
+        streamingGate.classList.add('is-hidden');
+        document.body.classList.add('has-entered');
+        window.setTimeout(() => document.getElementById('top').focus?.(), 700);
+      });
     });
   </script>
 </body>
