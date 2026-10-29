@@ -850,6 +850,123 @@
       border-color: rgba(255,255,255,0.16);
     }
     body.streaming-mode footer { color: #858585; }
+    body.streaming-mode section,
+    body.streaming-mode .hero-card,
+    body.streaming-mode .eyebrow,
+    body.streaming-mode h2,
+    body.streaming-mode .badge,
+    body.streaming-mode .meta-block,
+    body.streaming-mode .point-card,
+    body.streaming-mode .profile-box,
+    body.streaming-mode .skill-card,
+    body.streaming-mode .value-card,
+    body.streaming-mode .focus-card,
+    body.streaming-mode .cert-card,
+    body.streaming-mode .project-visual,
+    body.streaming-mode .contact-card,
+    body.streaming-mode .field,
+    body.streaming-mode footer {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        color 0.3s ease,
+        background-color 0.3s ease;
+    }
+    body.streaming-mode section:hover {
+      transform: translateY(-3px);
+      border-color: rgba(229, 9, 20, 0.28);
+      box-shadow: 0 30px 80px rgba(0,0,0,0.34);
+    }
+    body.streaming-mode h2:hover {
+      color: #ff6b72;
+      transform: translateX(4px);
+    }
+    body.streaming-mode .eyebrow:hover {
+      color: #ff6b72;
+      letter-spacing: 0.24em;
+    }
+    body.streaming-mode .badge:hover {
+      color: #fff;
+      background: rgba(229, 9, 20, 0.18);
+      border-color: rgba(229, 9, 20, 0.62);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(229, 9, 20, 0.18);
+    }
+    body.streaming-mode .meta-block:hover {
+      transform: translateY(-5px);
+    }
+    body.streaming-mode .meta-block:hover strong {
+      color: #ff6b72;
+    }
+    body.streaming-mode .point-card:hover,
+    body.streaming-mode .profile-box:hover,
+    body.streaming-mode .skill-card:hover,
+    body.streaming-mode .value-card:hover,
+    body.streaming-mode .focus-card:hover,
+    body.streaming-mode .cert-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(229, 9, 20, 0.5);
+      box-shadow: 0 20px 38px rgba(0,0,0,0.3);
+    }
+    body.streaming-mode .point-card:hover h3,
+    body.streaming-mode .skill-card:hover h3,
+    body.streaming-mode .value-card:hover h3,
+    body.streaming-mode .focus-card:hover h3,
+    body.streaming-mode .cert-card:hover h3 {
+      color: #ff6b72;
+    }
+    body.streaming-mode .project-visual:hover {
+      transform: scale(1.025);
+      border-color: rgba(229, 9, 20, 0.5);
+      box-shadow: inset 0 0 0 1px rgba(229, 9, 20, 0.2);
+    }
+    body.streaming-mode .project-visual:hover i {
+      transform: scale(1.18) rotate(-6deg);
+      color: #ff6b72;
+    }
+    body.streaming-mode .chip:hover {
+      color: #fff;
+      background: #e50914;
+      border-color: #e50914;
+      transform: translateY(-3px);
+    }
+    body.streaming-mode .contact-card:hover {
+      transform: translateY(-8px) scale(1.015);
+    }
+    body.streaming-mode .contact-card:hover i {
+      transform: translateY(-3px) scale(1.12);
+      color: #ff6b72;
+    }
+    body.streaming-mode .field:hover label {
+      color: #ff6b72;
+    }
+    body.streaming-mode .field input:hover,
+    body.streaming-mode .field textarea:hover {
+      border-color: rgba(229, 9, 20, 0.52);
+      background: #171717;
+    }
+    body.streaming-mode footer:hover {
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    body.streaming-mode .hero-card:hover .portrait-wrap {
+      transform: translateY(-6px) scale(1.015);
+      box-shadow: 0 34px 70px rgba(0,0,0,0.42);
+    }
+    body.streaming-mode .portrait-wrap {
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease;
+    }
+    body.streaming-mode .portrait-wrap img {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s ease;
+    }
+    body.streaming-mode .hero-card:hover .portrait-wrap img {
+      transform: scale(1.1);
+      filter: saturate(1.18) contrast(1.12);
+    }
+    body.streaming-mode .hero-card:hover::after {
+      transform: rotate(-7deg) translateY(-5px);
+      box-shadow: 0 18px 34px rgba(229, 9, 20, 0.2);
+    }
 
     .streaming-gate {
       position: fixed;
