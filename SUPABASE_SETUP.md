@@ -13,17 +13,17 @@ The policy allows visitors to submit inquiries but does not allow the public web
 
 ## 2. Add the public project values
 
-Open `index.html` and replace these two placeholders near the bottom:
+Open `index.html` and confirm these two public values near the bottom:
 
 ```js
-const SUPABASE_URL = 'PASTE_YOUR_SUPABASE_PROJECT_URL';
-const SUPABASE_ANON_KEY = 'PASTE_YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'https://your-project-id.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_...';
 ```
 
 Find both values in **Project Settings → API**:
 
 - **Project URL** → `SUPABASE_URL`
-- **Publishable anon key** → `SUPABASE_ANON_KEY`
+- **Publishable key** → `SUPABASE_ANON_KEY`
 
 Only use the public anon/publishable key in the portfolio. Never put a `service_role` key in `index.html`.
 
