@@ -1037,22 +1037,22 @@
         <div class="form-grid">
           <div class="field">
             <label for="name">Full name</label>
-            <input id="name" type="text" name="name" placeholder="Your name" required />
+            <input id="name" type="text" name="name" placeholder="Your name" minlength="2" maxlength="120" required />
           </div>
           <div class="field">
             <label for="email">Email</label>
-            <input id="email" type="email" name="email" placeholder="you@example.com" required />
+            <input id="email" type="email" name="email" placeholder="you@example.com" maxlength="254" required />
           </div>
         </div>
 
         <div class="field">
           <label for="subject">Subject</label>
-          <input id="subject" type="text" name="subject" placeholder="Project, role, or opportunity" required />
+          <input id="subject" type="text" name="subject" placeholder="Project, role, or opportunity" minlength="2" maxlength="160" required />
         </div>
 
         <div class="field">
           <label for="message">Message</label>
-          <textarea id="message" name="message" rows="5" placeholder="Tell me about your idea, opportunity, or collaboration." required></textarea>
+          <textarea id="message" name="message" rows="5" minlength="10" maxlength="5000" placeholder="Tell me about your idea, opportunity, or collaboration (at least 10 characters)." required></textarea>
         </div>
 
         <div class="submit-row">
@@ -1094,12 +1094,18 @@
       submitInquiry.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving inquiry…';
 
       const formData = new FormData(inquiryForm);
+      const message = String(formData.get('message') || '').trim();
+      if (message.length < 10) {
+        showFormStatus('Please write at least 10 characters so the inquiry has enough detail.', 'error');
+        return;
+      }
+
       const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
       const { error } = await client.from('portfolio_inquiries').insert({
         name: formData.get('name'),
         email: formData.get('email'),
         subject: formData.get('subject'),
-        message: formData.get('message'),
+        message,
         source: window.location.href
       });
 
