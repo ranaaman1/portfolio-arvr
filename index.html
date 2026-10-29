@@ -616,6 +616,24 @@
       color: var(--muted);
       font-size: 0.82rem;
     }
+    .form-status {
+      display: none;
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+    .form-status.is-visible { display: block; }
+    .form-status.is-success {
+      background: rgba(32, 126, 87, 0.1);
+      border: 1px solid rgba(32, 126, 87, 0.25);
+      color: #17613f;
+    }
+    .form-status.is-error {
+      background: rgba(171, 53, 53, 0.1);
+      border: 1px solid rgba(171, 53, 53, 0.24);
+      color: #8c2525;
+    }
     .honeypot { position: absolute; left: -9999px; opacity: 0; pointer-events: none; }
     form.inquiry-form {
       display: grid;
@@ -1014,10 +1032,7 @@
         </div>
       </div>
 
-      <form class="inquiry-form" action="https://formsubmit.co/amanu0155@gmail.com" method="POST">
-        <input type="hidden" name="_subject" value="New portfolio inquiry for Aman Rana" />
-        <input type="hidden" name="_captcha" value="false" />
-        <input type="hidden" name="_template" value="table" />
+      <form class="inquiry-form" id="inquiry-form">
         <input class="honeypot" type="text" name="_honey" tabindex="-1" autocomplete="off" />
         <div class="form-grid">
           <div class="field">
@@ -1041,9 +1056,10 @@
         </div>
 
         <div class="submit-row">
-          <button class="submit-button" type="submit"><i class="fas fa-paper-plane"></i> Send inquiry</button>
+          <button class="submit-button" id="submit-inquiry" type="submit"><i class="fas fa-paper-plane"></i> Send inquiry</button>
         </div>
-        <p class="inquiry-note">Your message will be sent securely to Aman’s email. Please use a work or university email when possible.</p>
+        <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+        <p class="inquiry-note">Your inquiry is stored securely in Aman’s private inquiry database. Your message is not publicly visible.</p>
       </form>
     </section>
   </div>
@@ -1051,5 +1067,53 @@
   <footer>
     © 2026 Aman Rana • MBA, Data Science & AI Student • Strategy • Analytics • Leadership
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'PASTE_YOUR_SUPABASE_PROJECT_URL';
+    const SUPABASE_ANON_KEY = 'PASTE_YOUR_SUPABASE_ANON_KEY';
+    const inquiryForm = document.getElementById('inquiry-form');
+    const submitInquiry = document.getElementById('submit-inquiry');
+    const formStatus = document.getElementById('form-status');
+    const isSupabaseConfigured = !SUPABASE_URL.startsWith('PASTE_') && !SUPABASE_ANON_KEY.startsWith('PASTE_');
+
+    function showFormStatus(message, type) {
+      formStatus.textContent = message;
+      formStatus.className = `form-status is-visible is-${type}`;
+    }
+
+    inquiryForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (inquiryForm.elements._honey.value) return;
+
+      if (!isSupabaseConfigured || !window.supabase) {
+        showFormStatus('The inquiry form is not connected yet. Add the Supabase project URL and anon key in this file.', 'error');
+        return;
+      }
+
+      submitInquiry.disabled = true;
+      submitInquiry.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving inquiry…';
+
+      const formData = new FormData(inquiryForm);
+      const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      const { error } = await client.from('portfolio_inquiries').insert({
+        name: formData.get('name'),
+        email: formData.get('email'),
+        subject: formData.get('subject'),
+        message: formData.get('message'),
+        source: window.location.href
+      });
+
+      submitInquiry.disabled = false;
+      submitInquiry.innerHTML = '<i class="fas fa-paper-plane"></i> Send inquiry';
+
+      if (error) {
+        showFormStatus('We could not save your inquiry. Please try again in a moment.', 'error');
+        return;
+      }
+
+      inquiryForm.reset();
+      showFormStatus('Thanks — your inquiry was received securely.', 'success');
+    });
+  </script>
 </body>
 </html>
