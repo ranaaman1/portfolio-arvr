@@ -738,6 +738,36 @@
       background: #070707;
       color: #f5f5f1;
     }
+    body.streaming-mode.gate-active {
+      overflow: hidden;
+      height: 100dvh;
+    }
+    body.streaming-mode .nav-profile-switch {
+      display: none;
+    }
+    body.streaming-mode.has-entered .nav-profile-switch {
+      display: inline-flex;
+    }
+    .nav-profile-switch {
+      border: 1px solid rgba(229, 9, 20, 0.45);
+      background: rgba(229, 9, 20, 0.12);
+      color: #fff;
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.83rem;
+      padding: 8px 12px;
+      border-radius: 999px;
+      align-items: center;
+      gap: 8px;
+      transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    }
+    .nav-profile-switch:hover,
+    .nav-profile-switch:focus-visible {
+      transform: translateY(-2px);
+      background: #e50914;
+      box-shadow: 0 10px 24px rgba(229, 9, 20, 0.2);
+      outline: none;
+    }
     body.streaming-mode .nav-bar {
       background: rgba(7, 7, 7, 0.88);
       border-bottom-color: rgba(255,255,255,0.1);
@@ -967,6 +997,19 @@
       transform: rotate(-7deg) translateY(-5px);
       box-shadow: 0 18px 34px rgba(229, 9, 20, 0.2);
     }
+    body.streaming-mode.has-entered header.hero,
+    body.streaming-mode.has-entered section,
+    body.streaming-mode.has-entered footer {
+      animation: content-arrive 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    body.streaming-mode.has-entered section:nth-of-type(2) { animation-delay: 0.08s; }
+    body.streaming-mode.has-entered section:nth-of-type(3) { animation-delay: 0.14s; }
+    body.streaming-mode.has-entered section:nth-of-type(4) { animation-delay: 0.2s; }
+    body.streaming-mode.has-entered section:nth-of-type(5) { animation-delay: 0.26s; }
+    @keyframes content-arrive {
+      from { opacity: 0; transform: translateY(24px); filter: blur(5px); }
+      to { opacity: 1; transform: translateY(0); filter: blur(0); }
+    }
 
     .streaming-gate {
       position: fixed;
@@ -1156,6 +1199,11 @@
       .streaming-gate { transition: none; }
       .gate-splash,
       .gate-splash::before { animation: none; }
+      body.streaming-mode.has-entered header.hero,
+      body.streaming-mode.has-entered section,
+      body.streaming-mode.has-entered footer {
+        animation: none;
+      }
     }
   </style>
 </head>
@@ -1191,6 +1239,7 @@
         <li><a href="#proof"><i class="fas fa-award"></i>Proof</a></li>
         <li><a href="https://alterimmersives.tech/index.html" target="_blank" rel="noreferrer"><i class="fas fa-building"></i>Company</a></li>
         <li><a href="#contact"><i class="fas fa-envelope"></i>Contact</a></li>
+        <li><button class="nav-profile-switch" id="profile-switch" type="button"><i class="fas fa-user-group"></i>Profiles</button></li>
       </ul>
     </div>
   </nav>
@@ -1568,8 +1617,9 @@
       showFormStatus('Thanks — your inquiry was received securely.', 'success');
     });
 
-    document.body.classList.add('streaming-mode');
+    document.body.classList.add('streaming-mode', 'gate-active');
     const streamingGate = document.getElementById('streaming-gate');
+    const profileSwitch = document.getElementById('profile-switch');
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     window.setTimeout(() => {
       streamingGate.classList.add('is-profile-mode');
@@ -1590,9 +1640,18 @@
           window.open('https://alterimmersives.tech/index.html', '_blank', 'noopener,noreferrer');
         }
         streamingGate.classList.add('is-hidden');
+        document.body.classList.remove('gate-active');
         document.body.classList.add('has-entered');
-        window.setTimeout(() => document.getElementById('top').focus?.(), 700);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       });
+    });
+    profileSwitch.addEventListener('click', () => {
+      streamingGate.classList.remove('is-hidden');
+      streamingGate.classList.add('is-profile-mode');
+      document.body.classList.remove('has-entered');
+      document.body.classList.add('gate-active');
+      window.scrollTo({ top: 0, behavior: 'auto' });
+      streamingGate.querySelector('.profile-option')?.focus();
     });
   </script>
 </body>
